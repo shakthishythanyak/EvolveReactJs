@@ -1,0 +1,46 @@
+.wrapper {
+    display: grid;
+}
+.icon {
+    grid-column: 1 / 10;
+    grid-row: 1;
+    align-content: center;
+    outline-color: gray;
+    padding-top:  15px;
+    padding-left: 10px;
+    font-size: large;
+    color:gray;
+    
+  }
+  .buttonWrapper
+  {
+display: grid;
+padding-top: 10px;
+  }
+  .button {
+    width: 250px;
+    grid-row: 1;
+    align-content: center;
+    outline-color: gray;
+    padding-top:  15px;
+    padding-left: 10px;
+    font-size: large;
+    color:gray;
+    
+  }
+  .textControl {
+    grid-column: 3 / 12;
+    grid-row: 1;
+    padding-top: 10px;
+    margin-right: 5px;
+    margin-left: 5px;
+  }
+  .textDescription {
+    grid-column: 4 / 12;
+    width: 100px;
+    grid-row: 1;
+    padding-top: 15px;
+    margin-left: -15px;
+    color: rgb(75, 73, 73);
+    font-weight: 600;
+  }
