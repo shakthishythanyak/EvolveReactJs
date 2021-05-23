@@ -1,9 +1,10 @@
 export interface ITaskInfo
 {
-    id: number;
-    taskName:string;
+    taskName:string
+    taskDesc:string
     dueDate:Date;
     assignee:User;
+    status:Status
 } 
 
 export interface User
@@ -11,3 +12,7 @@ export interface User
     name:string;
     profilePic:string;
 }
+
+export enum Status{
+    'Open', 'InProgress', 'Completed'
+} 

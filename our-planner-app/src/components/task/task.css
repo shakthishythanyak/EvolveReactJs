@@ -1,21 +1,23 @@
 .wrapper {
     display: grid;
+    grid-row: 1;
+}
+.calenderWrapper
+{
+  padding:'0px -16px'
 }
 .icon {
     grid-column: 1 / 10;
     grid-row: 1;
     align-content: center;
-    outline-color: gray;
     padding-top:  15px;
     padding-left: 10px;
     font-size: large;
-    color:gray;
-    
+    color:gray;    
   }
   .buttonWrapper
   {
 display: grid;
-padding-top: 10px;
   }
   .button {
     width: 250px;
@@ -36,11 +38,18 @@ padding-top: 10px;
     margin-left: 5px;
   }
   .textDescription {
-    grid-column: 4 / 12;
-    width: 100px;
+    grid-column: 3 / 12;
     grid-row: 1;
     padding-top: 15px;
-    margin-left: -15px;
+    color: rgb(75, 73, 73);
+    font-weight: 600;
+  }
+  .assigneeControl {
+    grid-column: 3 / 12;
+    grid-row: 1;
+    padding-top: 15px;
+    
+    padding-top: -1px;
     color: rgb(75, 73, 73);
     font-weight: 600;
   }
