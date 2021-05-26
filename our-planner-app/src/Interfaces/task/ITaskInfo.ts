@@ -1,17 +1,17 @@
 export interface ITaskInfo
 {
-    taskName:string
-    taskDesc:string
-    dueDate:Date;
-    assignee:User;
-    status:Status
+    id:number;
+    taskName:string;
+    status:Status;
+    allDay?: boolean;
+    start: Date;
+    end: Date;
+    desc?: string;
+    resourceId?: string;
+    tooltip?: string;
+    assigned:string;
 } 
 
-export interface User
-{
-    name:string;
-    profilePic:string;
-}
 
 export enum Status{
     'Open', 'InProgress', 'Completed'

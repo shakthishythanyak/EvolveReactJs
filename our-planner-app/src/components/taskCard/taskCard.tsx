@@ -56,15 +56,15 @@ export function TaskCard(taskInfo:ITaskInfo)
       }
       const getFacePile = () : IFacepileProps =>
       {
-        var facepersonas = facepileProps.personas.filter(x=>x.data === taskInfo.assignee.name);
+        var facepersonas = facepileProps.personas.filter(x=>x.data === taskInfo.assigned);
         facepersonas[0].personaName = getStatus() + " by " + facepersonas[0].personaName;
         var newFacepileTotal = { personas:facepersonas};
         return newFacepileTotal;
       }
       const getFirstName = () =>
       {
-        var lastSpaceElm = taskInfo.assignee.name.indexOf(" ");
-        var firstName = lastSpaceElm !== -1 ? taskInfo.assignee.name.substr(0,lastSpaceElm): taskInfo.assignee.name;
+        var lastSpaceElm = taskInfo.assigned.indexOf(" ");
+        var firstName = lastSpaceElm !== -1 ? taskInfo.assigned.substr(0,lastSpaceElm): taskInfo.assigned;
         return firstName
       }
       const getInfoByTaskStatus = () =>
@@ -72,22 +72,22 @@ export function TaskCard(taskInfo:ITaskInfo)
           var currentDate = new Date(Date.now());
           var statusText = getStatus();
           console.log(statusText);
-          if(taskInfo.dueDate> currentDate)
+          if(taskInfo.end > currentDate)
           {
               isOverDue = true;
+              console.log(isOverDue);
           }
-          taskStatusDesc = isOverDue ? getFirstName() + "'s planner overdue task" : getFirstName() + "'s planner " + {statusText} + " task"; 
+          taskStatusDesc = isOverDue ? getFirstName() + "'s planner overdue task" : getFirstName() + "'s planner " + statusText + " task"; 
           if(taskInfo.status == Status.Open)
           {
-              taskStatusDesc = isOverDue ? getFirstName() + "'s planner overdue task" : getFirstName() + "'s planner " + {statusText} + " task"; 
               imageToDisplay = "LocationCircle";
               className = "iconOpen"            
-              isStriked = true;
+              isStriked = false;
               taskAssigneProgress = "open task with"
         }  
         else if(taskInfo.status == Status.Completed)
         {    
-            imageToDisplay = "BoxCheckmarkSolid";
+            imageToDisplay = "CompletedSolid";
             className = "iconCompleted"            
             isStriked = true;
             taskAssigneProgress = "Completed by"
@@ -106,17 +106,17 @@ export function TaskCard(taskInfo:ITaskInfo)
     <Stack styles={stackStyles}  style={{backgroundColor:'white',boxShadow :'rgba(0, 0, 0, 0.35) 0px 5px 15px', margin:'2px 2px 2px 2px'}}>
         <Stack horizontal disableShrink tokens={horizontalGapStackTokens}>
             <Icon iconName={imageToDisplay} className={className} />
-            <span className="tasktextDescription" style={{textDecoration:"line-through"}}>{taskStatusDesc}</span>
+            <span className="tasktextDescription" style={isStriked?{textDecoration:"line-through"}:{}}>{taskStatusDesc}</span>
         </Stack>
         <Stack horizontal disableShrink tokens={horizontalGapStackTokens}>
             <Icon />
-            <span className="tasktextDescription" style={{color:"green"}}>{taskInfo.taskDesc}</span>
+            <span className="tasktextDescription" style={{color:"green"}}>{taskInfo.desc}</span>
         </Stack>
        
         <Stack horizontal disableShrink tokens={horizontalGapStackTokens} >
-            <div style={{backgroundColor:'red'}}>
-                <Icon iconName="Calendar" className="iconOpen" />
-                <span className="tasktextDescription">{taskInfo.dueDate.toLocaleDateString()}</span>
+            <div style={isOverDue? {backgroundColor:'red'}:{}}>
+                <Icon iconName="Calendar" className="iconOpen" /> 
+                <span className="tasktextDescription">&nbsp;{taskInfo.end.toLocaleDateString()}</span>
             </div>
         </Stack>
         <hr style={{width:'100%', color:'gray'}}></hr>

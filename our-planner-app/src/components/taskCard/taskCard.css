@@ -1,6 +1,7 @@
 .iconOpen {
     grid-column: 1 / 10;
     grid-row: 1;
+    padding-top: 1px;
     align-content: center;
     outline-color: gray;
     padding-left: 10px;
@@ -13,6 +14,7 @@
     align-content: center;
     outline-color: gray;
     padding-left: 10px;
+    padding-top: 1px;
     font-size: larger;
     color:blue;    
   }
@@ -22,6 +24,7 @@
     align-content: center;
     outline-color: gray;
     padding-left: 10px;
+    padding-top: 1px;
     font-size: larger;
     color:green;
   }    
@@ -30,5 +33,6 @@
     grid-column: 3 / 12;
     grid-row: 1;
     color: rgb(75, 73, 73);
-    font-weight: 600;
+    font-weight: 500;
+    
   }

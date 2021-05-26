@@ -36,20 +36,19 @@ display: grid;
     padding-top: 10px;
     margin-right: 5px;
     margin-left: 5px;
+    width: 250px;
   }
   .textDescription {
-    grid-column: 3 / 12;
+    grid-column: 2 / 12;
     grid-row: 1;
-    padding-top: 15px;
+    padding-top: 12px;
     color: rgb(75, 73, 73);
     font-weight: 600;
   }
   .assigneeControl {
     grid-column: 3 / 12;
     grid-row: 1;
-    padding-top: 15px;
-    
-    padding-top: -1px;
+    padding-top: 2px;
     color: rgb(75, 73, 73);
     font-weight: 600;
   }
