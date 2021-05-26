@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { FontIcon, mergeStyles,IStyleSet, Text, Label, ILabelStyles, Pivot, PivotItem, initializeIcons ,IPersonaSharedProps, Persona, PersonaSize , CommandButton,  IContextualMenuProps} from '@fluentui/react';
 import profile from "./Profile.jpg";
-import Calendar from "./Calendar";
+//import Calendar from "./Calendar";
 import Board from "./Board";
 
 //const { Label, Pivot, PivotItem, ThemeProvider, initializeIcons } = window.FluentUIReact;
@@ -162,7 +162,7 @@ export const Header: React.FunctionComponent = () => {
                     </PivotItem>
                     <PivotItem headerText="Schedule">
                     <TabClass>
-                      <Calendar></Calendar></TabClass>
+                      </TabClass>
                     </PivotItem>
                     <PivotItem headerText="...">
                     <Label styles={labelStyles}>More to come......</Label>
