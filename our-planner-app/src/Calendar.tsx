@@ -4,6 +4,7 @@ import moment from 'moment';
 import EventComponent from "./EventComponent";
 import * as faker from "faker"
 import {IMyEvent,IMyEvents,ICalendarmProps,statustype} from "./MyEvent.types"
+import {ITaskInfo,Status} from "./Interfaces/task/ITaskInfo"
 
 import { momentLocalizer } from 'react-big-calendar';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
@@ -11,17 +12,17 @@ import { date } from 'faker';
 import { constants } from 'perf_hooks';
 
 const localizer = momentLocalizer(moment);
-const myEvents:IMyEvent[] = [
-  { id: 1, title: "My Task Number 1", start: new Date(), end: new Date(), status:"New", assigned:"Braja"},
-  { id: 2, title: "My Task Number 2", start: new Date("2021-05-23"), end: new Date("2021-05-23"), status:"Inprogress", assigned:"Braja"},
-  { id: 3, title: "My Task Number 3", start: new Date("2021-05-27"), end: new Date("2021-05-27"), status:"Completed", assigned:"Braja"}
+const myEvents:ITaskInfo[] = [
+  { id: 1, taskName: "My Task Number 1", start: new Date(), end: new Date(), status:Status.Open, assigned:"Braja"},
+  { id: 2, taskName: "My Task Number 2", start: new Date("2021-05-23"), end: new Date("2021-05-23"), status:Status.InProgress, assigned:"Braja"},
+  { id: 3, taskName: "My Task Number 3", start: new Date("2021-05-25"), end: new Date("2021-05-25"), status:Status.Completed, assigned:"Braja"}
 ];
 
 const allViews: View[] = ['week', 'month'];
 
 interface Props {
     localizer: DateLocalizer;
-    myEvents:IMyEvent[];
+    myEvents:ITaskInfo[];
 }
 
 class CalendarEvent {
@@ -51,7 +52,7 @@ function SelectableCalendar (props: Props) {
     // ] as CalendarEvent[]);
 
     const {localizer,myEvents} = props;
-    const [events, setEvents] = useState( myEvents as IMyEvent[]);
+    const [events, setEvents] = useState( myEvents as ITaskInfo[]);
     
     //const handleSelect = ({ start, end} :{start:any, end:any}) => {
       const handleSelect = ({ start, end} :{start:any, end:any}) => {
@@ -59,11 +60,11 @@ function SelectableCalendar (props: Props) {
  
 
         if (title) {
-            let newEvent = {} as IMyEvent;
+            let newEvent = {} as ITaskInfo;
             newEvent.start = moment(start).toDate();
             newEvent.end = moment(end).toDate();
-            newEvent.title = title;
-            newEvent.status="New";
+            newEvent.taskName = title;
+            newEvent.status=Status.Open;
 
             // Erroneous code
             // events.push(newEvent)
@@ -87,7 +88,7 @@ function SelectableCalendar (props: Props) {
           onSelectSlot={handleSelect}
         startAccessor='start'
         endAccessor='end'
-        titleAccessor='title'
+        titleAccessor='taskName'
           components={{
             event: Event
           }}
@@ -96,11 +97,11 @@ function SelectableCalendar (props: Props) {
     )
   }
 
-  function Event({ event } : {event:IMyEvent}) {
-    if (event.status=="Completed") {
+  function Event({ event } : {event:ITaskInfo}) {
+    if (event.status==Status.Completed) {
       return ( <span>
      
-      <del>{event.title}</del>
+      <del>{event.taskName}</del>
       
     </span>);
     }
@@ -108,7 +109,7 @@ function SelectableCalendar (props: Props) {
     {
     return (
       <span>
-          {event.title}
+          {event.taskName}
           </span>    
     );
     }
