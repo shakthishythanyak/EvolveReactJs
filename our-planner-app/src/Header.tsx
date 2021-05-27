@@ -5,33 +5,35 @@ import profile from "./Profile.jpg";
 import Calendar from "./Calendar";
 import Board from "./Board";
 
-//const { Label, Pivot, PivotItem, ThemeProvider, initializeIcons } = window.FluentUIReact;
 const NavContainer = styled.div`
   width: 100%;
-  height: 50px;
-  position: fixed;
+  height: 30px;
   background: #000000;
   margin: auto;
 `;
-
+const HeaderContainer = styled.div`
+  width: 100%;
+  height: 20px;
+  background: #000000;
+  margin: Left;
+`;
 const NavHeader = styled.div`
-  width: 20%;
   float: left;
-  padding: 10px;
+  padding: 30px;
 `;
 
-const CartSpan = styled.div`
+const HeaderRightSpan = styled.div`
     width: 30%;
     float: right;
-    padding: 60px;
+    padding :30px;
     cursor: pointer;
 `;
 
-const CartSpantest = styled.div`
+const HeaderSpan = styled.div`
     width: 20%;
-    float: left;
-    padding: 60px;
+    padding: 30px;
     cursor: pointer;
+    float: left;
 `;
 
 const TabClass = styled.div`
@@ -116,8 +118,7 @@ export const Header: React.FunctionComponent = () => {
         },
       {
         key: 'keys[1]',
-        text: 'Progress',
-        
+        text: 'Progress'
       },
     ],
   } ),
@@ -128,11 +129,9 @@ export const Header: React.FunctionComponent = () => {
     <div>
      <NavContainer>
           <NavHeader>
-              //Do nothing
           </NavHeader>
       </NavContainer>
-      <NavContainer>
-          <CartSpantest>
+          <HeaderSpan>
               <table>
                 <tr>
                   <td>
@@ -148,8 +147,8 @@ export const Header: React.FunctionComponent = () => {
                   </td>
                 </tr>
               </table>
-          </CartSpantest>
-          <CartSpantest>
+          </HeaderSpan>
+          <HeaderSpan>
           <Pivot aria-label="Board and Schedule">
                     <PivotItem
                       headerText="Board"
@@ -169,8 +168,8 @@ export const Header: React.FunctionComponent = () => {
                     <Label styles={labelStyles}>More to come......</Label>
                   </PivotItem>
                 </Pivot>
-          </CartSpantest>
-        <CartSpan>
+          </HeaderSpan>
+        <HeaderRightSpan>
               <table>
                 <tr>
                   <td>
@@ -183,8 +182,7 @@ export const Header: React.FunctionComponent = () => {
                   </td>
                 </tr>
               </table>
-      </CartSpan>
-   </NavContainer>
+      </HeaderRightSpan>
       </div>
   );
 }

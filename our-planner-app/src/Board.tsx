@@ -3,7 +3,6 @@ import styled from 'styled-components';
 import { IIconProps, ActionButton, Text, Stack, IStackStyles, Calendar, PrimaryButton } from '@fluentui/react';
 import { Addtask } from './components/task/addtask';
 import { ITaskInfo, Status } from './Interfaces/task/ITaskInfo';
-import { Tasks } from './components/task/tasks';
 import { TaskCard } from './components/taskCard/taskCard';
 
 const StudentCard = styled.div`
@@ -66,15 +65,35 @@ export const testFunct = (task: ITaskInfo) => {
 const addIcon: IIconProps = { iconName: 'Add', style: { color: 'green' } };
 
 export const Board: React.FunctionComponent = () => {
-    const [addTaskClicked, setAddTaskClicked] = React.useState<Boolean>(false);
+    const [addOpenTaskClicked, setAddOpenTaskClicked] = React.useState<Boolean>(false);
+    const [addProgressTaskClicked, setAddProgressTaskClicked] = React.useState<Boolean>(false);
+    const [addCompleteTaskClicked, setAddCompleteTaskClicked] = React.useState<Boolean>(false);
     const [initialTaskData, setInitialTasks] = React.useState<ITaskInfo[]>(initialTasks);
-    const [addTaskFinal, setAddTaskFinal] = React.useState<Boolean>(false);
+    const openstatusref = React.useRef<HTMLDivElement>(null);
+   // const [addTaskFinal, setAddTaskFinal] = React.useState<Boolean>(false);
     var initialCount: Number = initialTasks.length;
+    var statusCompare: string = "Y" ;
 
+    const openAddOpenTask = () => {
+      setAddOpenTaskClicked(true);
+      
+      console.log(statusCompare);
+      console.log(addOpenTaskClicked);
+  }
 
-    const openAddTask = () => {
-        setAddTaskClicked(true);
-    }
+  const openAddProgressTask = () => {
+    setAddProgressTaskClicked(true);
+    
+    console.log(statusCompare);
+    console.log(addProgressTaskClicked);
+}
+
+const openAddCompleteTask = () => {
+  setAddCompleteTaskClicked(true);
+  
+  console.log(statusCompare);
+  console.log(addCompleteTaskClicked);
+}
 
     const props: ITaskInfo =
     {
@@ -86,47 +105,49 @@ export const Board: React.FunctionComponent = () => {
         assigned: "Shakthi",
         status: Status.Open
     };
-    const testTaskCard = () => {
-        console.log("Entered");
-        return <Tasks {...initialTasks}></Tasks>
-    }
+
     const addParentCall = (task: ITaskInfo) => {
-        setAddTaskFinal(true);
-        console.log("entered 1 2 3");
+        //setAddTaskFinal(true);
         initialCount = initialTasks.length;
         initialTasks.push(task);
         setInitialTasks(initialTasks);
-        console.log(initialTasks);
-        Test(task);
+        setAddOpenTaskClicked(false);
+        setAddProgressTaskClicked(false);
+        setAddCompleteTaskClicked(false);
     }
     return (
         <>
-            {initialTasks && initialTasks.length >= initialCount && initialTasks.map(x => { return <TaskCard {...x}></TaskCard> })}
-
-            <div style={{ padding: '5px 5px 5px 5px' }}>
-                <PrimaryButton onClick={openAddTask}></PrimaryButton>
-            </div>
-            {addTaskClicked && <Addtask status={Status.Open} addParentCall={addParentCall} />
-            }
             <div>
                 <Stack horizontal tokens={{ childrenGap: 100 }} styles={stackStyles}>
                     <div className="students">
                         <Text block variant='medium' style={{ fontWeight: 'bold' }}>Not started</Text>
                         <StudentCard>
-                            <ActionButton iconProps={addIcon} allowDisabledFocus style={{ color: 'green' }}>Add Task</ActionButton>
+                            <ActionButton iconProps={addIcon} allowDisabledFocus style={{ color: 'green' }} onClick={() => openAddOpenTask()}>Add Task</ActionButton>
                         </StudentCard>
+                        { addOpenTaskClicked && <Addtask status={Status.Open} addParentCall={addParentCall} />
+                        }
+                        <br/> 
+                        {initialTasks && initialTasks.length >= initialCount && initialTasks.filter(x => x.status === Status.Open).map(x=> { return <TaskCard {...x}></TaskCard>})}
                     </div>
                     <div>
                         <Text block variant='medium' style={{ fontWeight: 'bold' }}>In progres</Text>
                         <StudentCard>
-                            <ActionButton iconProps={addIcon} allowDisabledFocus style={{ color: 'green' }}>Add Task</ActionButton>
+                            <ActionButton iconProps={addIcon} allowDisabledFocus style={{ color: 'green' }} onClick={() => openAddProgressTask()}>Add Task</ActionButton>
                         </StudentCard>
+                        {addProgressTaskClicked && <Addtask status={Status.InProgress} addParentCall={addParentCall} />
+                        }
+                        <br/> 
+                        {initialTasks && initialTasks.length >= initialCount && initialTasks.filter(x => x.status === Status.InProgress).map(x=> { return <TaskCard {...x}></TaskCard>})}
                     </div>
                     <div>
                         <Text block variant='medium' style={{ fontWeight: 'bold' }}>Completed</Text>
                         <StudentCard>
-                            <ActionButton iconProps={addIcon} allowDisabledFocus style={{ color: 'green' }}>Add Task</ActionButton>
+                            <ActionButton iconProps={addIcon} allowDisabledFocus style={{ color: 'green' }} onClick={() => openAddCompleteTask()}>Add Task</ActionButton>
                         </StudentCard>
+                        {addCompleteTaskClicked  && <Addtask status={Status.Completed} addParentCall={addParentCall} />
+                        }
+                        <br/> 
+                        {initialTasks && initialTasks.length >= initialCount && initialTasks.filter(x => x.status === Status.Completed).map(x=> { return <TaskCard {...x}></TaskCard> })}
                     </div>
                 </Stack>
             </div>
@@ -137,7 +158,3 @@ export const Board: React.FunctionComponent = () => {
 }
 
 export default Board;
-
-function Test(task: ITaskInfo) {
-    return <TaskCard {...task}></TaskCard>
-}

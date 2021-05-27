@@ -19,7 +19,7 @@ export function TaskCard(taskInfo: ITaskInfo) {
   const stackStyles: IStackStyles = {
     root: {
       height: 170,
-      width: 400
+      width: 350
     }
   };
   const facepileProps: IFacepileProps = {
@@ -90,7 +90,7 @@ export function TaskCard(taskInfo: ITaskInfo) {
       isStriked = false;
       imageToDisplay = "CircleHalfFull";
       className = "iconInProgress";
-      taskAssigneProgress = "In progress with"
+      taskAssigneProgress = "In progress with";
     }
   }
   getInfoByTaskStatus();
@@ -117,7 +117,7 @@ export function TaskCard(taskInfo: ITaskInfo) {
         <span className="tasktextDescription">  <Facepile {...facePile} styles={{ root: { color: rgb2hex(128, 128, 128), fontSize: '16px !important' } }} /></span>
       </Stack>
     </Stack>
-
+    <br/>
 
   </>
 }

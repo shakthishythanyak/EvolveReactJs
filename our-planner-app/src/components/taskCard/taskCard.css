@@ -6,7 +6,7 @@
     outline-color: gray;
     padding-left: 10px;
     font-size: larger;
-    color:gray;    
+    color: rgb(0, 120, 212);  
   }
   .iconInProgress {
     grid-column: 1 / 10;
@@ -16,7 +16,7 @@
     padding-left: 10px;
     padding-top: 1px;
     font-size: larger;
-    color:blue;    
+    color: rgb(0, 120, 212);
   }
   .iconCompleted {
     grid-column: 1 / 10;

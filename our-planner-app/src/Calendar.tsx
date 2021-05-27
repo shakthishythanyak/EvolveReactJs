@@ -2,13 +2,11 @@ import React, { useState } from 'react'
 import { Calendar, View, DateLocalizer } from 'react-big-calendar'
 import moment from 'moment';
 import EventComponent from "./EventComponent";
-import * as faker from "faker"
 import {IMyEvent,IMyEvents,ICalendarmProps,statustype} from "./MyEvent.types"
 import {ITaskInfo,Status} from "./Interfaces/task/ITaskInfo"
 
 import { momentLocalizer } from 'react-big-calendar';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
-import { date } from 'faker';
 import { constants } from 'perf_hooks';
 
 const localizer = momentLocalizer(moment);

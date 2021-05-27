@@ -232,7 +232,6 @@ export const Addtask: React.FC<Props> = ({ status, addParentCall }) => {
           AddTask
       </PrimaryButton>
       </div>
-
     </Stack>
   </>
   );
