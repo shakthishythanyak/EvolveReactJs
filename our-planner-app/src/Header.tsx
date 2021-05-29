@@ -1,9 +1,12 @@
-import React from 'react';
+import React,{useState} from 'react';
 import styled from 'styled-components';
 import { FontIcon, mergeStyles,IStyleSet, Text, Label, ILabelStyles, Pivot, PivotItem, initializeIcons ,IPersonaSharedProps, Persona, PersonaSize , CommandButton,  IContextualMenuProps} from '@fluentui/react';
 import profile from "./Profile.jpg";
 import Calendar from "./Calendar";
 import Board from "./Board";
+import { ContextualMenuItemType } from '@fluentui/react/lib/ContextualMenu';
+import { DefaultButton } from '@fluentui/react/lib/Button';
+import { useConst } from '@fluentui/react-hooks';
 
 const NavContainer = styled.div`
   width: 100%;
@@ -46,7 +49,7 @@ left: 3%;
 const iconClass = mergeStyles({
   height: 40,
 });
-
+var view="";
 const labelStyles: Partial<IStyleSet<ILabelStyles>> = {
     root: { marginTop: 10 },
   };
@@ -72,7 +75,7 @@ const keys: string[] = [
 // Initialize icons in case this example uses them
 initializeIcons();
 
-export const Header: React.FunctionComponent = () => {
+export function Header() {
   
   const filterProps: IContextualMenuProps = {
     items: [
@@ -108,23 +111,41 @@ export const Header: React.FunctionComponent = () => {
     // shouldFocusOnMount: false
   };
 
-  const groupProps: IContextualMenuProps = React.useMemo(
-    () => ({
-    items: [
-      {
-        key: keys[0],
-        text: 'Due Date',
-        iconProps: { iconName: 'Accept'}
-        },
-      {
-        key: 'keys[1]',
-        text: 'Progress'
-      },
-    ],
-  } ),
-  [Selection],
-  );
 
+  
+  //var Defaultview="DueDate";
+  function handleGroupByDueDateClick()
+  {
+    view="DueDate";
+    console.log("DueDateclicked" + view);
+    setCount(prevCount => prevCount + 1)
+    //useForceUpdate()
+  }
+  function handleGroupByProgressClick()
+  {
+    view="Progress";
+    console.log("ProgressClicked" + view);
+    setCount(prevCount => prevCount + 1)
+    //useForceUpdate();
+  }
+  //const [, updateState] = React.useState();
+  //const forceUpdate = React.useCallback(() => updateState({}), []);
+
+  const [count, setCount] = useState(0);
+
+
+  const menuProps = useConst<IContextualMenuProps>(() => ({
+    shouldFocusOnMount: false,
+    items: [
+      { key: 'DueDate', text: 'Due Date', onClick: handleGroupByDueDateClick,  },
+      { key: 'Progress', text: 'Progress', onClick: handleGroupByProgressClick }
+    ],
+  }));
+  // function useForceUpdate() {
+  //   let [value, setState] = useState(true);
+  //   console.log("Inside useForceUpdate")
+  //   return () => setState(!value);
+  // }
   return (
     <div>
      <NavContainer>
@@ -157,7 +178,7 @@ export const Header: React.FunctionComponent = () => {
                         'data-title': 'Board',
                       }}
                       >
-                    <TabClass><Board></Board></TabClass>
+                    <TabClass><Board SelectedView={view} ></Board></TabClass>
                     </PivotItem>
                     <PivotItem headerText="Schedule">
                     <TabClass>
@@ -178,7 +199,7 @@ export const Header: React.FunctionComponent = () => {
                   <CommandButton text="Filter(0)" menuProps={filterProps} />
                   </td>
                   <td>
-                  <CommandButton text="Groub by" menuProps={groupProps} />
+                  <CommandButton text="Groub by" menuProps={menuProps} />
                   </td>
                 </tr>
               </table>

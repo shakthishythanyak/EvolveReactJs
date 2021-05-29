@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { IIconProps, ActionButton, Text, Stack, IStackStyles, Calendar, PrimaryButton } from '@fluentui/react';
 import { Addtask } from './components/task/addtask';
@@ -42,7 +42,7 @@ export const initialTasks: ITaskInfo[] = [
     },
     {
         id: 3,
-        taskName: "Add Informtaion",
+        taskName: "Review FDR cases",
         desc: "To do",
         start: new Date(Date.now()),
         end: new Date(Date.now()),
@@ -63,8 +63,20 @@ export const testFunct = (task: ITaskInfo) => {
 }
 
 const addIcon: IIconProps = { iconName: 'Add', style: { color: 'green' } };
+interface IBoardProps {
+    SelectedView: string;
+    //DefaultView:string;
+}
 
-export const Board: React.FunctionComponent = () => {
+var viewdetails = "Progress";
+ export function Board(props:IBoardProps) {
+    
+    if (viewdetails!=props.SelectedView && props.SelectedView !='' ) {
+        
+        viewdetails=props.SelectedView;
+    }
+    //  
+   console.log(props.SelectedView);
     const [addOpenTaskClicked, setAddOpenTaskClicked] = React.useState<Boolean>(false);
     const [addProgressTaskClicked, setAddProgressTaskClicked] = React.useState<Boolean>(false);
     const [addCompleteTaskClicked, setAddCompleteTaskClicked] = React.useState<Boolean>(false);
@@ -95,16 +107,16 @@ const openAddCompleteTask = () => {
   console.log(addCompleteTaskClicked);
 }
 
-    const props: ITaskInfo =
-    {
-        id: 1,
-        taskName: "Trying to add the task",
-        desc: "To do",
-        start: new Date(Date.now() - 10),
-        end: new Date(Date.now() + 2),
-        assigned: "Shakthi",
-        status: Status.Open
-    };
+    // const props: ITaskInfo =
+    // {
+    //     id: 1,
+    //     taskName: "Trying to add the task",
+    //     desc: "To do",
+    //     start: new Date(Date.now() - 10),
+    //     end: new Date(Date.now() + 2),
+    //     assigned: "Shakthi",
+    //     status: Status.Open
+    // };
 
     const addParentCall = (task: ITaskInfo) => {
         //setAddTaskFinal(true);
@@ -115,6 +127,17 @@ const openAddCompleteTask = () => {
         setAddProgressTaskClicked(false);
         setAddCompleteTaskClicked(false);
     }
+    if (viewdetails =="DueDate") {
+        console.log(viewdetails + "122")
+        return (<>
+        <div>
+            <span>Due Date View goes here.</span>
+        </div>
+        </> )
+    }
+    else
+    {
+        console.log(viewdetails + "131")
     return (
         <>
             <div>
@@ -155,6 +178,7 @@ const openAddCompleteTask = () => {
 
         </>
     );
+                    }
 }
 
 export default Board;
