@@ -1,10 +1,10 @@
-import React,{useState} from 'react';
+import React, { useRef, useState } from 'react';
 import styled from 'styled-components';
-import { FontIcon, mergeStyles,IStyleSet, Text, Label, ILabelStyles, Pivot, PivotItem, initializeIcons ,IPersonaSharedProps, Persona, PersonaSize , CommandButton,  IContextualMenuProps} from '@fluentui/react';
+import { FontIcon, mergeStyles, IStyleSet, Text, Label, ILabelStyles, Pivot, PivotItem, initializeIcons, IPersonaSharedProps, Persona, PersonaSize, CommandButton, IContextualMenuProps } from '@fluentui/react';
 import profile from "./Profile.jpg";
 import Calendar from "./Calendar";
 import Board from "./Board";
-import { ContextualMenuItemType } from '@fluentui/react/lib/ContextualMenu';
+import { ContextualMenuItemType, IContextualMenuItem } from '@fluentui/react/lib/ContextualMenu';
 import { DefaultButton } from '@fluentui/react/lib/Button';
 import { useConst } from '@fluentui/react-hooks';
 
@@ -49,50 +49,58 @@ left: 3%;
 const iconClass = mergeStyles({
   height: 40,
 });
-var view="";
+var view = "";
+var selectedFilters: string[] = [];
 const labelStyles: Partial<IStyleSet<ILabelStyles>> = {
-    root: { marginTop: 10 },
-  };
+  root: { marginTop: 10 },
+};
 
 const examplePersona: IPersonaSharedProps = {
-    imageUrl: profile,
-  };
+  imageUrl: profile,
+};
 
 export interface IButtonExampleProps {
-    // These are set based on the toggles shown above the examples (not needed in real code)
-    disabled?: boolean;
-    checked?: boolean;
-  }
+  // These are set based on the toggles shown above the examples (not needed in real code)
+  disabled?: boolean;
+  checked?: boolean;
+}
 
 const keys: string[] = [
-    'duedate',
-    'progress',
-  ];
+  'duedate',
+  'progress',
+];
 
-  //const ButtonCommandExample: React.FunctionComponent<IButtonExampleProps> = props => {
-   // const { disabled, checked } = props;
+//const ButtonCommandExample: React.FunctionComponent<IButtonExampleProps> = props => {
+// const { disabled, checked } = props;
 
 // Initialize icons in case this example uses them
 initializeIcons();
+let previousLength = 0;
 
 export function Header() {
-  
+
+
+  const functeTest = (ev?: React.MouseEvent<HTMLElement> | React.KeyboardEvent<HTMLElement>, item?: IContextualMenuItem) => {
+    let selectedVal: string = item !== undefined ? item.key : "";
+    selectedFilters.push(selectedVal);
+    console.log("DueDateclicked" + view);
+    setFilterCount(prevCount => prevCount + 1)
+  }
   const filterProps: IContextualMenuProps = {
     items: [
       {
         key: 'filterDue',
         text: 'Due',
-        //itemType: ContextualMenuItemType.Header},
-         subMenuProps: {
+        subMenuProps: {
           items: [
-            { key: 'late', text: 'Late' },
-            { key: 'today', text: 'Today' },
-            { key: 'tomoarrow', text: 'Tomorrow'},
-            { key: 'thisWeek', text: 'This week' },
-            { key: 'nextWeek', text: 'Next Week' },
-            { key: 'future', text: 'Future'},
-            { key: 'noDate', text: 'No Date'},
-         ],
+            { key: 'late', text: 'Late', onClick: functeTest },
+            { key: 'today', text: 'Today', onClick: functeTest },
+            { key: 'tomorrow', text: 'Tomorrow', onClick: functeTest },
+            { key: 'thisWeek', text: 'This week', onClick: functeTest },
+            { key: 'nextWeek', text: 'Next Week', onClick: functeTest },
+            { key: 'future', text: 'Future', onClick: functeTest },
+            { key: 'noDate', text: 'No Date', onClick: functeTest },
+          ],
         }
       },
       {
@@ -101,8 +109,8 @@ export function Header() {
         subMenuProps: {
           items: [
             { key: 'noStarted', text: 'Not Started', iconProps: { iconName: 'StatusCircleRing' } },
-            { key: 'inProgress', text: 'In progress' , iconProps: { iconName: 'CircleHalfFull' }},
-            { key: 'completed', text: 'Completed', iconProps: { iconName: 'CompletedSolid', style: { color: 'green' }}}
+            { key: 'inProgress', text: 'In progress', iconProps: { iconName: 'CircleHalfFull' } },
+            { key: 'completed', text: 'Completed', iconProps: { iconName: 'CompletedSolid', style: { color: 'green' } } }
           ],
         },
       },
@@ -112,18 +120,16 @@ export function Header() {
   };
 
 
-  
+
   //var Defaultview="DueDate";
-  function handleGroupByDueDateClick()
-  {
-    view="DueDate";
+  function handleGroupByDueDateClick() {
+    view = "DueDate";
     console.log("DueDateclicked" + view);
     setCount(prevCount => prevCount + 1)
     //useForceUpdate()
   }
-  function handleGroupByProgressClick()
-  {
-    view="Progress";
+  function handleGroupByProgressClick() {
+    view = "Progress";
     console.log("ProgressClicked" + view);
     setCount(prevCount => prevCount + 1)
     //useForceUpdate();
@@ -132,12 +138,13 @@ export function Header() {
   //const forceUpdate = React.useCallback(() => updateState({}), []);
 
   const [count, setCount] = useState(0);
+  const [filterCount, setFilterCount] = useState(0);
 
 
   const menuProps = useConst<IContextualMenuProps>(() => ({
     shouldFocusOnMount: false,
     items: [
-      { key: 'DueDate', text: 'Due Date', onClick: handleGroupByDueDateClick,  },
+      { key: 'DueDate', text: 'Due Date', onClick: handleGroupByDueDateClick, },
       { key: 'Progress', text: 'Progress', onClick: handleGroupByProgressClick }
     ],
   }));
@@ -148,63 +155,68 @@ export function Header() {
   // }
   return (
     <div>
-     <NavContainer>
-          <NavHeader>
-          </NavHeader>
+      <NavContainer>
+        <NavHeader>
+        </NavHeader>
       </NavContainer>
-          <HeaderSpan>
-              <table>
-                <tr>
-                  <td>
-                  <Pivot aria-label="Links of Tab Style Pivot Example" linkFormat="tabs" style= {{color :"black"}}>
-                  <PivotItem headerText="MT"></PivotItem>
-                  </Pivot>
-                  </td><td width="20"></td>
-                  <td><Text block variant ='xLarge'>My Tasks</Text>
-                  <Text variant ='tiny'>My Tasks</Text>
-                  </td>
-                  <td>
-                  <FontIcon aria-label="Icon" iconName="FavoriteStar" className={iconClass} />
-                  </td>
-                </tr>
-              </table>
-          </HeaderSpan>
-          <HeaderSpan>
-          <Pivot aria-label="Board and Schedule">
-                    <PivotItem
-                      headerText="Board"
-                      headerButtonProps={{
-                        'data-order': 1,
-                        'data-title': 'Board',
-                      }}
-                      >
-                    <TabClass><Board SelectedView={view} ></Board></TabClass>
-                    </PivotItem>
-                    <PivotItem headerText="Schedule">
-                    <TabClass>
-                      <Calendar></Calendar>
-                      </TabClass>
-                    </PivotItem>
-                    <PivotItem headerText="...">
-                    <Label styles={labelStyles}>More to come......</Label>
-                  </PivotItem>
-                </Pivot>
-          </HeaderSpan>
-        <HeaderRightSpan>
-              <table>
-                <tr>
-                  <td>
-                  <Persona {...examplePersona} text="Reshma Vishwanath" size={PersonaSize.size32} /></td>
-                  <td>
-                  <CommandButton text="Filter(0)" menuProps={filterProps} />
-                  </td>
-                  <td>
-                  <CommandButton text="Groub by" menuProps={menuProps} />
-                  </td>
-                </tr>
-              </table>
+      <HeaderSpan>
+        <table>
+          <tr>
+            <td>
+              <Pivot aria-label="Links of Tab Style Pivot Example" linkFormat="tabs" style={{ color: "black" }}>
+                <PivotItem headerText="MT"></PivotItem>
+              </Pivot>
+            </td><td width="20"></td>
+            <td><Text block variant='xLarge'>My Tasks</Text>
+              <Text variant='tiny'>My Tasks</Text>
+            </td>
+            <td>
+              <FontIcon aria-label="Icon" iconName="FavoriteStar" className={iconClass} />
+            </td>
+          </tr>
+        </table>
+      </HeaderSpan>
+      <HeaderSpan>
+        <Pivot aria-label="Board and Schedule">
+          <PivotItem
+            headerText="Board"
+            headerButtonProps={{
+              'data-order': 1,
+              'data-title': 'Board',
+            }}
+          >
+            {
+              <TabClass>
+                {/* {selectedFilters && selectedFilters.length > previousLength && <Board SelectedView={view} SelectedFilter={selectedFilters} ></Board>} */}
+                <Board SelectedView={view} SelectedFilter={selectedFilters} ></Board>
+              </TabClass>
+            }
+          </PivotItem>
+          <PivotItem headerText="Schedule">
+            <TabClass>
+              <Calendar></Calendar>
+            </TabClass>
+          </PivotItem>
+          <PivotItem headerText="...">
+            <Label styles={labelStyles}>More to come......</Label>
+          </PivotItem>
+        </Pivot>
+      </HeaderSpan>
+      <HeaderRightSpan>
+        <table>
+          <tr>
+            <td>
+              <Persona {...examplePersona} text="Reshma Vishwanath" size={PersonaSize.size32} /></td>
+            <td>
+              <CommandButton text="Filter(0)" menuProps={filterProps} />
+            </td>
+            <td>
+              <CommandButton text="Group by" menuProps={menuProps} />
+            </td>
+          </tr>
+        </table>
       </HeaderRightSpan>
-      </div>
+    </div >
   );
 }
 
