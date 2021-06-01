@@ -55,7 +55,6 @@ export function TaskCard(taskInfo: ITaskInfo) {
     var firstName = lastSpaceElm !== -1 ? taskInfo.assigned.substr(0, lastSpaceElm) : taskInfo.assigned;
 
     var facepersonas = facepileProps.personas.filter(x => x.data === firstName);
-    console.log(facepersonas);
     facepersonas[0].personaName = getStatus() + " by " + facepersonas[0].personaName;
     var newFacepileTotal = { personas: facepersonas };
     return newFacepileTotal;
@@ -66,14 +65,12 @@ export function TaskCard(taskInfo: ITaskInfo) {
     return firstName
   }
   const getInfoByTaskStatus = () => {
-    var currentDate = new Date(Date.now());
+    var currentDate = new Date(new Date(Date.now()).setHours(0, 0, 0, 0));
     var statusText = getStatus();
-    console.log(statusText);
-    if (taskInfo.end > currentDate) {
+    if (taskInfo.end < currentDate) {
       isOverDue = true;
-      console.log(isOverDue);
     }
-    taskStatusDesc = isOverDue ? getFirstName() + "'s planner overdue task" : getFirstName() + "'s planner " + statusText + " task";
+    // taskStatusDesc = isOverDue ? getFirstName() + "'s planner overdue task" : getFirstName() + "'s planner " + statusText + " task";
     if (taskInfo.status == Status.Open) {
       imageToDisplay = "LocationCircle";
       className = "iconOpen"
@@ -99,7 +96,7 @@ export function TaskCard(taskInfo: ITaskInfo) {
     <Stack styles={stackStyles} style={{ backgroundColor: 'white', boxShadow: 'rgba(0, 0, 0, 0.35) 0px 5px 15px', margin: '2px 2px 2px 2px' }}>
       <Stack horizontal disableShrink tokens={horizontalGapStackTokens}>
         <Icon iconName={imageToDisplay} className={className} />
-        <span className="tasktextDescription" style={isStriked ? { textDecoration: "line-through" } : {}}>{taskStatusDesc}</span>
+        <span className="tasktextDescription" style={isStriked ? { textDecoration: "line-through" } : {}}>{taskInfo.taskName}</span>
       </Stack>
       <Stack horizontal disableShrink tokens={horizontalGapStackTokens}>
         <Icon />
@@ -109,7 +106,7 @@ export function TaskCard(taskInfo: ITaskInfo) {
       <Stack horizontal disableShrink tokens={horizontalGapStackTokens} >
         <div style={isOverDue ? { backgroundColor: 'red' } : {}}>
           <Icon iconName="Calendar" className="iconOpen" />
-          <span className="tasktextDescription">&nbsp;{taskInfo.end.toLocaleDateString()}</span>
+          <span className="tasktextDescription">&nbsp;{taskInfo.end.setHours(0, 0, 0, 0) === new Date(2000, 1, 1).setHours(0, 0, 0, 0) ? 'No Date' : taskInfo.end.toLocaleDateString()}</span>
         </div>
       </Stack>
       <hr style={{ width: '100%', color: 'gray' }}></hr>
@@ -117,7 +114,7 @@ export function TaskCard(taskInfo: ITaskInfo) {
         <span className="tasktextDescription">  <Facepile {...facePile} styles={{ root: { color: rgb2hex(128, 128, 128), fontSize: '16px !important' } }} /></span>
       </Stack>
     </Stack>
-    <br/>
+    <br />
 
   </>
 }

@@ -1,6 +1,6 @@
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
-import { FontIcon, mergeStyles, IStyleSet, Text, Label, ILabelStyles, Pivot, PivotItem, initializeIcons, IPersonaSharedProps, Persona, PersonaSize, CommandButton, IContextualMenuProps } from '@fluentui/react';
+import { FontIcon, mergeStyles, IStyleSet, Text, Label, ILabelStyles, Pivot, PivotItem, initializeIcons, IPersonaSharedProps, Persona, PersonaSize, CommandButton, IContextualMenuProps, IIconProps } from '@fluentui/react';
 import profile from "./Profile.jpg";
 import Calendar from "./Calendar";
 import Board from "./Board";
@@ -50,7 +50,7 @@ const iconClass = mergeStyles({
   height: 40,
 });
 var view = "";
-var selectedFilters: string[] = [];
+
 const labelStyles: Partial<IStyleSet<ILabelStyles>> = {
   root: { marginTop: 10 },
 };
@@ -69,22 +69,26 @@ const keys: string[] = [
   'duedate',
   'progress',
 ];
-
+var selectedFilters: string[] = [];
 //const ButtonCommandExample: React.FunctionComponent<IButtonExampleProps> = props => {
 // const { disabled, checked } = props;
 
 // Initialize icons in case this example uses them
 initializeIcons();
-let previousLength = 0;
-
+let previousLength = -2;
+let textOfFilter: string = "Filter(0)";
+let textOfGroupBy: string = "Group By Progress";
 export function Header() {
 
 
   const functeTest = (ev?: React.MouseEvent<HTMLElement> | React.KeyboardEvent<HTMLElement>, item?: IContextualMenuItem) => {
     let selectedVal: string = item !== undefined ? item.key : "";
+
     selectedFilters.push(selectedVal);
+    textOfFilter = "Filter(" + selectedFilters.length + ")";
     console.log("DueDateclicked" + view);
     setFilterCount(prevCount => prevCount + 1)
+    previousLength = previousLength + 1;
   }
   const filterProps: IContextualMenuProps = {
     items: [
@@ -122,12 +126,14 @@ export function Header() {
   //var Defaultview="DueDate";
   function handleGroupByDueDateClick() {
     view = "DueDate";
+    textOfGroupBy = "Group By DueDate";
     console.log("DueDateclicked" + view);
     setCount(prevCount => prevCount + 1)
     //useForceUpdate()
   }
   function handleGroupByProgressClick() {
     view = "Progress";
+    textOfGroupBy = "Group By Progress";
     console.log("ProgressClicked" + view);
     setCount(prevCount => prevCount + 1)
     //useForceUpdate();
@@ -154,63 +160,63 @@ export function Header() {
         </NavHeader>
       </NavContainer>
       <NavContainer>
-      <HeaderSpan>
-        <table>
-          <tr>
-            <td>
-              <Pivot aria-label="Links of Tab Style Pivot Example" linkFormat="tabs" style={{ color: "black" }}>
-                <PivotItem headerText="MT"></PivotItem>
-              </Pivot>
-            </td><td width="20"></td>
-            <td><Text block variant='xLarge'>My Tasks</Text>
-              <Text variant='tiny'>My Tasks</Text>
-            </td>
-            <td>
-              <FontIcon aria-label="Icon" iconName="FavoriteStar" className={iconClass} />
-            </td>
-          </tr>
-        </table>
-      </HeaderSpan>
-      <HeaderSpan>
-        <Pivot aria-label="Board and Schedule">
-          <PivotItem
-            headerText="Board"
-            headerButtonProps={{
-              'data-order': 1,
-              'data-title': 'Board',
-            }}
-          >
-            {
+        <HeaderSpan>
+          <table>
+            <tr>
+              <td>
+                <Pivot aria-label="Links of Tab Style Pivot Example" linkFormat="tabs" style={{ color: "black" }}>
+                  <PivotItem headerText="MT"></PivotItem>
+                </Pivot>
+              </td><td width="20"></td>
+              <td><Text block variant='xLarge'>My Tasks</Text>
+                <Text variant='tiny'>My Tasks</Text>
+              </td>
+              <td>
+                <FontIcon aria-label="Icon" iconName="FavoriteStar" className={iconClass} />
+              </td>
+            </tr>
+          </table>
+        </HeaderSpan>
+        <HeaderSpan>
+          <Pivot aria-label="Board and Schedule">
+            <PivotItem
+              headerText="Board"
+              headerButtonProps={{
+                'data-order': 1,
+                'data-title': 'Board',
+              }}
+            >
+              {
+                <TabClass>
+                  {/* {selectedFilters && selectedFilters.length > previousLength && <Board SelectedView={view} SelectedFilter={selectedFilters} ></Board>} */}
+                  <Board SelectedView={view} SelectedFilter={selectedFilters} ></Board>
+                </TabClass>
+              }
+            </PivotItem>
+            <PivotItem headerText="Schedule">
               <TabClass>
-                {/* {selectedFilters && selectedFilters.length > previousLength && <Board SelectedView={view} SelectedFilter={selectedFilters} ></Board>} */}
-                <Board SelectedView={view} SelectedFilter={selectedFilters} ></Board>
+                <Calendar></Calendar>
               </TabClass>
-            }
-          </PivotItem>
-          <PivotItem headerText="Schedule">
-            <TabClass>
-              <Calendar></Calendar>
-            </TabClass>
-          </PivotItem>
-          <PivotItem headerText="...">
-            <Label styles={labelStyles}>More to come......</Label>
-          </PivotItem>
-        </Pivot>
-      </HeaderSpan>
-      <HeaderRightSpan>
-        <table>
-          <tr>
-            <td>
-              <Persona {...examplePersona} text="Reshma Vishwanath" size={PersonaSize.size32} /></td>
-            <td>
-              <CommandButton text="Filter(0)" menuProps={filterProps} />
-            </td>
-            <td>
-              <CommandButton text="Group by Progress" menuProps={menuProps} />
-            </td>
-          </tr>
-        </table>
-      </HeaderRightSpan>
+            </PivotItem>
+            <PivotItem headerText="...">
+              <Label styles={labelStyles}>More to come......</Label>
+            </PivotItem>
+          </Pivot>
+        </HeaderSpan>
+        <HeaderRightSpan>
+          <table>
+            <tr>
+              <td>
+                <Persona {...examplePersona} text="Reshma Vishwanath" size={PersonaSize.size32} /></td>
+              <td>
+                <CommandButton text={textOfFilter} menuProps={filterProps} />
+              </td>
+              <td>
+                <CommandButton text={textOfGroupBy} menuProps={menuProps} />
+              </td>
+            </tr>
+          </table>
+        </HeaderRightSpan>
       </NavContainer>
     </div >
   );
