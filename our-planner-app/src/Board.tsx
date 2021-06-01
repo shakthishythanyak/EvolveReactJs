@@ -4,6 +4,8 @@ import { IIconProps, ActionButton, Text, Stack, IStackStyles, Calendar, PrimaryB
 import { Addtask } from './components/task/addtask';
 import { ITaskInfo, Status } from './Interfaces/task/ITaskInfo';
 import { TaskCard } from './components/taskCard/taskCard';
+import moment from 'moment';
+import "datejs";
 
 const StudentCard = styled.div`
     border-style: solid;
@@ -54,7 +56,8 @@ export const initialTasks: ITaskInfo[] = [
 
 const stackStyles: IStackStyles = {
     root: {
-        height: 800
+        height: 800,
+        width : 100
     }
 };
 
@@ -64,6 +67,7 @@ export const testFunct = (task: ITaskInfo) => {
 }
 
 const addIcon: IIconProps = { iconName: 'Add', style: { color: 'green' } };
+const addStatusCircle: IIconProps = { iconName: 'StatusCircleRing'};
 interface IBoardProps {
     SelectedView: string;
     SelectedFilter: string[];
@@ -78,6 +82,13 @@ export function Board(props: Props) {
     const [addOpenTaskClicked, setAddOpenTaskClicked] = React.useState<Boolean>(false);
     const [addProgressTaskClicked, setAddProgressTaskClicked] = React.useState<Boolean>(false);
     const [addCompleteTaskClicked, setAddCompleteTaskClicked] = React.useState<Boolean>(false);
+    const [addLateTaskClicked, setAddLateTaskClicked] = React.useState<Boolean>(false);
+    const [addTodayTaskClicked, setAddTodayTaskClicked] = React.useState<Boolean>(false);
+    const [addTomorrowTaskClicked, setAddTomorrowTaskClicked] = React.useState<Boolean>(false);
+    const [addThisWeekTaskClicked, setAddThisWeekTaskClicked] = React.useState<Boolean>(false);
+    const [addNextWeekTaskClicked, setAddNextWeekTaskClicked] = React.useState<Boolean>(false);
+    const [addFutureTaskClicked, setAddFutureTaskClicked] = React.useState<Boolean>(false);
+    const [addNoDateTaskClicked, setAddNoDateTaskClicked] = React.useState<Boolean>(false);
     const [initialTaskData, setInitialTasks] = React.useState<ITaskInfo[]>(initialTasks);
     [filteredTasks] = React.useState<ITaskInfo[]>(initialTasks);
     var initialCount: Number = initialTasks.length;
@@ -100,32 +111,46 @@ export function Board(props: Props) {
         }
     }
 
-    console.log(props.SelectedView);
-    console.log(props.SelectedFilter);
     var initialCount: Number = initialTasks.length;
-    var statusCompare: string = "Y";
 
     const openAddOpenTask = () => {
         setAddOpenTaskClicked(true);
-
-        console.log(statusCompare);
-        console.log(addOpenTaskClicked);
     }
 
     const openAddProgressTask = () => {
         setAddProgressTaskClicked(true);
-
-        console.log(statusCompare);
-        console.log(addProgressTaskClicked);
     }
 
     const openAddCompleteTask = () => {
         setAddCompleteTaskClicked(true);
-
-        console.log(statusCompare);
-        console.log(addCompleteTaskClicked);
     }
 
+    const openAddLateTask = () => {
+      setAddLateTaskClicked(true);
+  }
+
+  const openAddTodayTask = () => {
+      setAddTodayTaskClicked(true);
+  }
+
+  const openAddTomorrowTask = () => {
+      setAddTomorrowTaskClicked(true);
+  }
+
+  const openAddThisWeekTask = () => {
+    setAddThisWeekTaskClicked(true);
+  }
+  const openAddNextWeekTask = () => {
+    setAddNextWeekTaskClicked(true);
+  }
+
+  const openAddFutureTask = () => {
+    setAddFutureTaskClicked(true);
+  }
+
+    const openAddNoDateTask = () => {
+    setAddNoDateTaskClicked(true);
+  }
     const addParentCall = (task: ITaskInfo) => {
         //setAddTaskFinal(true);
         initialCount = initialTasks.length;
@@ -134,14 +159,101 @@ export function Board(props: Props) {
         setAddOpenTaskClicked(false);
         setAddProgressTaskClicked(false);
         setAddCompleteTaskClicked(false);
+        setAddLateTaskClicked(false);
+        setAddTodayTaskClicked(false);
+        setAddTomorrowTaskClicked(false);
+        setAddThisWeekTaskClicked(false);
+        setAddNextWeekTaskClicked(false);
+        setAddFutureTaskClicked(false);
+        setAddNoDateTaskClicked(false);
+        console.log('testing date');  
+        console.log(new Date(Date.now()).setHours(0,0,0,0));
+        console.log(task.start.setHours(0,0,0,0));
+        console.log(new Date(task.start.getTime() - new Date(Date.now()).getTime()));
+        console.log(new Date(Date.now()).next().sunday().getDate());
+        console.log(new Date(Date.now()).next().sunday().addDays(7).setHours(0,0,0,0));
+        console.log(new Date(Date.now()).next().day().setHours(0,0,0,0));
+        console.log(new Date(Date.now()).next().day().setHours(0,0,0,0));
+        console.log((new Date(2000, 1, 1).setHours(0,0,0,0)));
     }
 
     if (viewdetails == "DueDate") {
         console.log(viewdetails + "122")
         return (<>
-            <div>
-                <span>Due Date View goes here.</span>
-            </div>
+            {
+              <Stack horizontal tokens={{ childrenGap: 50 }} styles={stackStyles}>
+              <div className="students">
+                  <Text block variant='medium' style={{ fontWeight: 'bold' }}>Late</Text>
+                  <StudentCard>
+                      <ActionButton iconProps={addIcon} allowDisabledFocus style={{ color: 'green' }} onClick={() => openAddLateTask()}>Add Task</ActionButton>
+                  </StudentCard>
+                  {addLateTaskClicked && <Addtask status={Status.Open} addParentCall={addParentCall} />
+                  }
+                  <br />
+                  {filteredTasks && filteredTasks.length >= initialCount && filteredTasks.filter(x => x.status === Status.Open && x.start.setHours(0,0,0,0) < new Date(Date.now()).setHours(0,0,0,0) && x.start.setHours(0,0,0,0) != new Date(2000, 1, 1).setHours(0,0,0,0)).map(x => { return <TaskCard {...x}></TaskCard> })}
+              </div>
+              <div>
+                  <Text block variant='medium' style={{ fontWeight: 'bold' }}>Today</Text>
+                  <StudentCard>
+                      <ActionButton iconProps={addIcon} allowDisabledFocus style={{ color: 'green' }} onClick={() => openAddTodayTask()}>Add Task</ActionButton>
+                  </StudentCard>
+                  {addTodayTaskClicked && <Addtask status={Status.Open} addParentCall={addParentCall} />
+                  }
+                  <br />
+                  {filteredTasks && filteredTasks.length >= initialCount && filteredTasks.filter(x => x.status === Status.Open && x.start.setHours(0,0,0,0) === new Date(Date.now()).setHours(0,0,0,0)).map(x => { return <TaskCard {...x}></TaskCard> })}
+              </div>
+              <div>
+                  <Text block variant='medium' style={{ fontWeight: 'bold' }}>Tomorrow</Text>
+                  <StudentCard>
+                      <ActionButton iconProps={addIcon} allowDisabledFocus style={{ color: 'green' }} onClick={() => openAddTomorrowTask()}>Add Task</ActionButton>
+                  </StudentCard>
+                  {addTomorrowTaskClicked && <Addtask status={Status.Open} addParentCall={addParentCall} />
+                  }
+                  <br />
+                  {filteredTasks && filteredTasks.length >= initialCount && filteredTasks.filter(x => x.status === Status.Open && x.start.setHours(0,0,0,0) === new Date(Date.now()).next().day().setHours(0,0,0,0)).map(x => { return <TaskCard {...x}></TaskCard> })}
+              </div>
+              <div>
+                  <Text block variant='medium' style={{ fontWeight: 'bold' }}>This Week</Text>
+                  <StudentCard>
+                      <ActionButton iconProps={addIcon} allowDisabledFocus style={{ color: 'green' }} onClick={() => openAddThisWeekTask()}>Add Task</ActionButton>
+                  </StudentCard>
+                  {addThisWeekTaskClicked && <Addtask status={Status.Open} addParentCall={addParentCall} />
+                  }
+                  <br />
+                  {filteredTasks && filteredTasks.length >= initialCount && filteredTasks.filter(x => x.status === Status.Open && x.start.setHours(0,0,0,0) > new Date(Date.now()).next().day().setHours(0,0,0,0) && (x.start.setHours(0,0,0,0) < new Date(Date.now()).next().sunday().setHours(0,0,0,0))).map(x => { return <TaskCard {...x}></TaskCard> })}
+              </div>
+              <div>
+                  <Text block variant='medium' style={{ fontWeight: 'bold' }}>Next Week</Text>
+                  <StudentCard>
+                      <ActionButton iconProps={addIcon} allowDisabledFocus style={{ color: 'green' }} onClick={() => openAddNextWeekTask()}>Add Task</ActionButton>
+                  </StudentCard>
+                  {addNextWeekTaskClicked && <Addtask status={Status.Open} addParentCall={addParentCall} />
+                  }
+                  <br />
+                  {filteredTasks && filteredTasks.length >= initialCount && filteredTasks.filter(x => x.status === Status.Open && x.start.setHours(0,0,0,0) >= new Date(Date.now()).next().sunday().setHours(0,0,0,0) && x.start.setHours(0,0,0,0) < new Date(Date.now()).next().sunday().addDays(7).setHours(0,0,0,0)).map(x => { return <TaskCard {...x}></TaskCard> })}
+              </div>
+              <div>
+                  <Text block variant='medium' style={{ fontWeight: 'bold' }}>Future</Text>
+                  <StudentCard>
+                      <ActionButton iconProps={addIcon} allowDisabledFocus style={{ color: 'green' }} onClick={() => openAddFutureTask()}>Add Task</ActionButton>
+                  </StudentCard>
+                  {addFutureTaskClicked && <Addtask status={Status.Open} addParentCall={addParentCall} />
+                  }
+                  <br />
+                  {filteredTasks && filteredTasks.length >= initialCount && filteredTasks.filter(x => x.status === Status.Open && x.start.setHours(0,0,0,0) >= new Date(Date.now()).next().sunday().addDays(7).setHours(0,0,0,0)).map(x => { return <TaskCard {...x}></TaskCard> })}
+              </div>
+              <div>
+                  <Text block variant='medium' style={{ fontWeight: 'bold' }}>No Date</Text>
+                  <StudentCard>
+                      <ActionButton iconProps={addIcon} allowDisabledFocus style={{ color: 'green' }} onClick={() => openAddNoDateTask()}>Add Task</ActionButton>
+                  </StudentCard>
+                  {addNoDateTaskClicked && <Addtask status={Status.Open} addParentCall={addParentCall} />
+                  }
+                  <br />
+                  {filteredTasks && filteredTasks.length >= initialCount && filteredTasks.filter(x => x.status === Status.Open && x.start.setHours(0,0,0,0) === new Date(2000, 1, 1).setHours(0,0,0,0)).map(x => { return <TaskCard {...x}></TaskCard> })}
+              </div>
+          </Stack>
+            }
         </>)
     }
     else {

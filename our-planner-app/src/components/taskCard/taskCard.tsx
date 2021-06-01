@@ -19,7 +19,7 @@ export function TaskCard(taskInfo: ITaskInfo) {
   const stackStyles: IStackStyles = {
     root: {
       height: 170,
-      width: 350
+      width: 300
     }
   };
   const facepileProps: IFacepileProps = {

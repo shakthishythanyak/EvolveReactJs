@@ -13,6 +13,7 @@
     "@types/node": "^12.20.13",
     "@types/react": "^17.0.6",
     "@types/react-dom": "^17.0.5",
+    "datejs": "^1.0.0-rc3",
     "faker": "^5.5.3",
     "moment": "^2.29.1",
     "office-ui-fabric-react": "7.170.1",
@@ -54,6 +55,7 @@
   },
   "devDependencies": {
     "@material-ui/core": "^4.0.0",
+    "@types/datejs": "0.0.31",
     "@types/faker": "^5.5.5",
     "@types/react-big-calendar": "^0.31.0",
     "@types/react-dom": "^16.9.5",

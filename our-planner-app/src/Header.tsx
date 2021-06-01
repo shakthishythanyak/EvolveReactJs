@@ -119,8 +119,6 @@ export function Header() {
     // shouldFocusOnMount: false
   };
 
-
-
   //var Defaultview="DueDate";
   function handleGroupByDueDateClick() {
     view = "DueDate";
@@ -148,17 +146,14 @@ export function Header() {
       { key: 'Progress', text: 'Progress', onClick: handleGroupByProgressClick }
     ],
   }));
-  // function useForceUpdate() {
-  //   let [value, setState] = useState(true);
-  //   console.log("Inside useForceUpdate")
-  //   return () => setState(!value);
-  // }
+
   return (
     <div>
       <NavContainer>
         <NavHeader>
         </NavHeader>
       </NavContainer>
+      <NavContainer>
       <HeaderSpan>
         <table>
           <tr>
@@ -211,11 +206,12 @@ export function Header() {
               <CommandButton text="Filter(0)" menuProps={filterProps} />
             </td>
             <td>
-              <CommandButton text="Group by" menuProps={menuProps} />
+              <CommandButton text="Group by Progress" menuProps={menuProps} />
             </td>
           </tr>
         </table>
       </HeaderRightSpan>
+      </NavContainer>
     </div >
   );
 }
