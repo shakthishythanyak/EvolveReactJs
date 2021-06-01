@@ -1,47 +1,36 @@
-import React, { useState } from 'react'
+import React, { useState, Children } from 'react'
 import { Calendar, View, DateLocalizer } from 'react-big-calendar'
 import moment from 'moment';
 import EventComponent from "./EventComponent";
+import * as faker from "faker"
 import {IMyEvent,IMyEvents,ICalendarmProps,statustype} from "./MyEvent.types"
 import {ITaskInfo,Status} from "./Interfaces/task/ITaskInfo"
-
+import { DefaultPalette, Facepile, Icon, IFacepileProps, IIconStyles, IStackStyles, IStackTokens, PersonaInitialsColor, rgb2hex, Stack } from "@fluentui/react";
 import { momentLocalizer } from 'react-big-calendar';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
+import { date } from 'faker';
 import { constants } from 'perf_hooks';
+import {initialTasks} from "./Board"
+import './components/task/task.css';
 
 const localizer = momentLocalizer(moment);
-const myEvents:ITaskInfo[] = [
-  { id: 1, taskName: "My Task Number 1", start: new Date(), end: new Date(), status:Status.Open, assigned:"Braja"},
-  { id: 2, taskName: "My Task Number 2", start: new Date("2021-05-23"), end: new Date("2021-05-23"), status:Status.InProgress, assigned:"Braja"},
-  { id: 3, taskName: "My Task Number 3", start: new Date("2021-05-25"), end: new Date("2021-05-25"), status:Status.Completed, assigned:"Braja"}
-];
+const currentUser = "Braja";
+const myEvents:ITaskInfo[]=initialTasks.filter(x=>x.assigned==currentUser);
 
+// const myEvents:ITaskInfo[] = [
+//   { id: 1, taskName: "My Task Number 1", start: new Date(), end: new Date(), status:Status.Open, assigned:"Braja"},
+//   { id: 2, taskName: "My Task Number 2", start: new Date("2021-05-23"), end: new Date("2021-05-23"), status:Status.InProgress, assigned:"Braja"},
+//   { id: 3, taskName: "My Task Number 3", start: new Date("2021-05-25"), end: new Date("2021-05-25"), status:Status.Completed, assigned:"Braja"}
+// ];
+
+//const myevents2:ITaskInfo = initialTasks;
 const allViews: View[] = ['week', 'month'];
+//class customview implements View
 
 interface Props {
     localizer: DateLocalizer;
     myEvents:ITaskInfo[];
 }
-
-class CalendarEvent {
-    title: string;
-    allDay: boolean;
-    start: Date;
-    end: Date;
-    desc: string;
-    resourceId?: string;
-    tooltip?: string;
-
-    constructor(_title: string, _start: Date, _endDate: Date, _allDay?: boolean, _desc?: string, _resourceId?: string) {
-        this.title = _title;
-        this.allDay = _allDay || false;
-        this.start = _start;
-        this.end = _endDate;
-        this.desc = _desc || '';
-        this.resourceId = _resourceId;
-    }
-  }
-
 
 function SelectableCalendar (props: Props) {
     // const [events, setEvents] = useState([
@@ -81,32 +70,47 @@ function SelectableCalendar (props: Props) {
          events={events}
          defaultView='month'
          views={allViews}
-           defaultDate={new Date()}
+           defaultDate={new Date()} 
            onSelectEvent={event => Event}
-          onSelectSlot={handleSelect}
+           eventPropGetter={event=>({ style:{backgroundColor: "white",         borderRadius: '0px',          opacity: 0.8,          color: 'black', border: '0px',display: 'block'}})}
+           
+          //onSelectSlot={handleSelect}
         startAccessor='start'
         endAccessor='end'
         titleAccessor='taskName'
           components={{
             event: Event
+            
           }}
+          style={{  }}
+
         />
       </>
     )
   }
 
   function Event({ event } : {event:ITaskInfo}) {
+    console.log(event);
     if (event.status==Status.Completed) {
       return ( <span>
-     
+     <Icon iconName="CompletedSolid" className="iconCompleted" />  &nbsp;
       <del>{event.taskName}</del>
       
     </span>);
+    }
+    else if (event.status==Status.Open) {
+      return (
+        <span>
+          <Icon iconName="LocationCircle" className="iconOpen" />&nbsp;
+            {event.taskName}
+            </span>    
+      );
     }
     else
     {
     return (
       <span>
+        <Icon iconName="CircleHalfFull" className="iconInProgress" />&nbsp;
           {event.taskName}
           </span>    
     );
@@ -114,7 +118,7 @@ function SelectableCalendar (props: Props) {
   }  
 export default function Availability() {
     return (
-      <div style={{ height: "100vh" }}>
+      <div style={{ height: "80vh" }}>
         <SelectableCalendar localizer={localizer} myEvents={myEvents} />
       </div>
     );
