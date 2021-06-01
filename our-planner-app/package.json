@@ -4,7 +4,7 @@
   "private": true,
   "dependencies": {
     "@fluentui/example-data": "^8.2.1",
-    "@fluentui/react": "8.14.13",
+    "@fluentui/react": "8.15.1",
     "@fluentui/react-hooks": "^8.2.1",
     "@testing-library/jest-dom": "^5.12.0",
     "@testing-library/react": "^11.2.7",
@@ -13,6 +13,7 @@
     "@types/node": "^12.20.13",
     "@types/react": "^17.0.6",
     "@types/react-dom": "^17.0.5",
+    "datejs": "^1.0.0-rc3",
     "faker": "^5.5.3",
     "moment": "^2.29.1",
     "office-ui-fabric-react": "7.170.1",
@@ -54,6 +55,7 @@
   },
   "devDependencies": {
     "@material-ui/core": "^4.0.0",
+    "@types/datejs": "0.0.31",
     "@types/faker": "^5.5.5",
     "@types/react-big-calendar": "^0.31.0",
     "@types/react-dom": "^16.9.5",

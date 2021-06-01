@@ -82,7 +82,7 @@ export const Addtask: React.FC<Props> = ({ status, addParentCall }) => {
   }
 
   const calendarIcon: IIconProps = { iconName: 'Calendar', styles: iconStyles };
-  const [selectedDate, setSelectedDate] = React.useState<Date>(new Date(Date.now()));
+  const [selectedDate, setSelectedDate] = React.useState<Date>(new Date(2000, 1, 1));
   const [toggle, setToggle] = React.useState<Boolean>();
   const [isCalloutVisible, { toggle: toggleIsCalloutVisible, setFalse: hideCallout }] = useBoolean(false);
   const [selectedValue, setSelectedValue] = React.useState<string>();
