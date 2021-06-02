@@ -250,7 +250,7 @@ export function Board(props: Props) {
         console.log(viewdetails + "122")
         return (<>
             {
-              <div  style={{ overflow :'scroll' , width:'95vw'}}>
+              <div  style={{ overflow :'scroll' , width:'93vw', height:'40vw'}}>
                 <Stack horizontal tokens={{ childrenGap: 50 }} styles={stackStyles}>
                     <div className="students">
                         <Text block variant='medium' style={{ fontWeight: 'bold' }}>Late</Text>
@@ -331,7 +331,7 @@ export function Board(props: Props) {
 
         return (
             <>{
-                <div style={{ overflow :'scroll' , width:'95vw'}}>
+                <div style={{ overflow :'scroll' , width:'93vw' , height:'40vw'}}>
                     <Stack horizontal tokens={{ childrenGap: 100 }} styles={stackStyles}>
                         <div className="students">
                             <Text block variant='medium' style={{ fontWeight: 'bold' }}>Not started</Text>
