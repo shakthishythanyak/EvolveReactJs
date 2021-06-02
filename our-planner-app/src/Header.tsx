@@ -26,7 +26,6 @@ const NavHeader = styled.div`
 `;
 
 const HeaderRightSpan = styled.div`
-    width: 30%;
     float: right;
     padding :30px;
     cursor: pointer;

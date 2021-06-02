@@ -83,8 +83,7 @@ export const initialTasks: ITaskInfo[] = [
 
 const stackStyles: IStackStyles = {
     root: {
-        height: 800,
-        width: 100
+        height: 800
     }
 };
 
@@ -251,6 +250,7 @@ export function Board(props: Props) {
         console.log(viewdetails + "122")
         return (<>
             {
+              <div  style={{ overflow :'scroll' , width:1930}}>
                 <Stack horizontal tokens={{ childrenGap: 50 }} styles={stackStyles}>
                     <div className="students">
                         <Text block variant='medium' style={{ fontWeight: 'bold' }}>Late</Text>
@@ -323,6 +323,7 @@ export function Board(props: Props) {
                         {filteredTasks && filteredTasks.length >= initialCount && filteredTasks.filter(x => x.status === Status.Open && x.end.setHours(0, 0, 0, 0) === new Date(2000, 1, 1).setHours(0, 0, 0, 0)).map(x => { return <TaskCard {...x}></TaskCard> })}
                     </div>
                 </Stack>
+                </div>
             }
         </>)
     }
@@ -330,7 +331,7 @@ export function Board(props: Props) {
 
         return (
             <>{
-                <div>
+                <div style={{ overflow :'scroll' , width:1930}}>
                     <Stack horizontal tokens={{ childrenGap: 100 }} styles={stackStyles}>
                         <div className="students">
                             <Text block variant='medium' style={{ fontWeight: 'bold' }}>Not started</Text>
@@ -365,7 +366,6 @@ export function Board(props: Props) {
                     </Stack>
                 </div>
             }
-
             </>
         );
     }
