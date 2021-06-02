@@ -250,7 +250,7 @@ export function Board(props: Props) {
         console.log(viewdetails + "122")
         return (<>
             {
-              <div  style={{ overflow :'scroll' , width:1930}}>
+              <div  style={{ overflow :'scroll' , width:'95vw'}}>
                 <Stack horizontal tokens={{ childrenGap: 50 }} styles={stackStyles}>
                     <div className="students">
                         <Text block variant='medium' style={{ fontWeight: 'bold' }}>Late</Text>
@@ -280,7 +280,7 @@ export function Board(props: Props) {
                         {addTomorrowTaskClicked && <Addtask status={Status.Open} addParentCall={addParentCall} />
                         }
                         <br />
-                        {filteredTasks && filteredTasks.length >= initialCount && filteredTasks.filter(x => x.status === Status.Open && x.end.setHours(0, 0, 0, 0) === new Date(Date.now()).next().day().setHours(0, 0, 0, 0)).map(x => { return <TaskCard {...x}></TaskCard> })}
+                        {filteredTasks && filteredTasks.filter(x => x.status === Status.Open && x.end.setHours(0, 0, 0, 0) === new Date(Date.now()).next().day().setHours(0, 0, 0, 0)).map(x => { return <TaskCard {...x}></TaskCard> })}
                     </div>
                     <div>
                         <Text block variant='medium' style={{ fontWeight: 'bold' }}>This Week</Text>
@@ -290,7 +290,7 @@ export function Board(props: Props) {
                         {addThisWeekTaskClicked && <Addtask status={Status.Open} addParentCall={addParentCall} />
                         }
                         <br />
-                        {filteredTasks && filteredTasks.length >= initialCount && filteredTasks.filter(x => x.status === Status.Open && x.end.setHours(0, 0, 0, 0) > new Date(Date.now()).next().day().setHours(0, 0, 0, 0) && (x.end.setHours(0, 0, 0, 0) < new Date(Date.now()).next().sunday().setHours(0, 0, 0, 0))).map(x => { return <TaskCard {...x}></TaskCard> })}
+                        {filteredTasks && filteredTasks.filter(x => x.status === Status.Open && x.end.setHours(0, 0, 0, 0) > new Date(Date.now()).next().day().setHours(0, 0, 0, 0) && (x.end.setHours(0, 0, 0, 0) < new Date(Date.now()).next().sunday().setHours(0, 0, 0, 0))).map(x => { return <TaskCard {...x}></TaskCard> })}
                     </div>
                     <div>
                         <Text block variant='medium' style={{ fontWeight: 'bold' }}>Next Week</Text>
@@ -300,7 +300,7 @@ export function Board(props: Props) {
                         {addNextWeekTaskClicked && <Addtask status={Status.Open} addParentCall={addParentCall} />
                         }
                         <br />
-                        {filteredTasks && filteredTasks.length >= initialCount && filteredTasks.filter(x => x.status === Status.Open && x.end.setHours(0, 0, 0, 0) >= new Date(Date.now()).next().sunday().setHours(0, 0, 0, 0) && x.end.setHours(0, 0, 0, 0) < new Date(Date.now()).next().sunday().addDays(7).setHours(0, 0, 0, 0)).map(x => { return <TaskCard {...x}></TaskCard> })}
+                        {filteredTasks && filteredTasks.filter(x => x.status === Status.Open && x.end.setHours(0, 0, 0, 0) >= new Date(Date.now()).next().sunday().setHours(0, 0, 0, 0) && x.end.setHours(0, 0, 0, 0) < new Date(Date.now()).next().sunday().addDays(7).setHours(0, 0, 0, 0)).map(x => { return <TaskCard {...x}></TaskCard> })}
                     </div>
                     <div>
                         <Text block variant='medium' style={{ fontWeight: 'bold' }}>Future</Text>
@@ -310,7 +310,7 @@ export function Board(props: Props) {
                         {addFutureTaskClicked && <Addtask status={Status.Open} addParentCall={addParentCall} />
                         }
                         <br />
-                        {filteredTasks && filteredTasks.length >= initialCount && filteredTasks.filter(x => x.status === Status.Open && x.end.setHours(0, 0, 0, 0) >= new Date(Date.now()).next().sunday().addDays(7).setHours(0, 0, 0, 0)).map(x => { return <TaskCard {...x}></TaskCard> })}
+                        {filteredTasks && filteredTasks.filter(x => x.status === Status.Open && x.end.setHours(0, 0, 0, 0) >= new Date(Date.now()).next().sunday().addDays(7).setHours(0, 0, 0, 0)).map(x => { return <TaskCard {...x}></TaskCard> })}
                     </div>
                     <div>
                         <Text block variant='medium' style={{ fontWeight: 'bold' }}>No Date</Text>
@@ -320,7 +320,7 @@ export function Board(props: Props) {
                         {addNoDateTaskClicked && <Addtask status={Status.Open} addParentCall={addParentCall} />
                         }
                         <br />
-                        {filteredTasks && filteredTasks.length >= initialCount && filteredTasks.filter(x => x.status === Status.Open && x.end.setHours(0, 0, 0, 0) === new Date(2000, 1, 1).setHours(0, 0, 0, 0)).map(x => { return <TaskCard {...x}></TaskCard> })}
+                        {filteredTasks && filteredTasks.filter(x => x.status === Status.Open && x.end.setHours(0, 0, 0, 0) === new Date(2000, 1, 1).setHours(0, 0, 0, 0)).map(x => { return <TaskCard {...x}></TaskCard> })}
                     </div>
                 </Stack>
                 </div>
@@ -331,7 +331,7 @@ export function Board(props: Props) {
 
         return (
             <>{
-                <div style={{ overflow :'scroll' , width:1930}}>
+                <div style={{ overflow :'scroll' , width:'95vw'}}>
                     <Stack horizontal tokens={{ childrenGap: 100 }} styles={stackStyles}>
                         <div className="students">
                             <Text block variant='medium' style={{ fontWeight: 'bold' }}>Not started</Text>
