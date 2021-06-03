@@ -175,6 +175,18 @@ export function Board(props: Props) {
                 initialCount = filteredTasks.length;
                 initialTasks.filter(x => x.end.setHours(0, 0, 0, 0) === new Date(2000, 1, 1).setHours(0, 0, 0, 0)).map(x => tempFilteredTasks.push(x));
             }
+            if (selectedFilters.includes("notStarted")) {
+                initialCount = filteredTasks.length;
+                initialTasks.filter(x => x.status == Status.Open).map(x => tempFilteredTasks.push(x));
+            }
+            if (selectedFilters.includes("inProgress")) {
+                initialCount = filteredTasks.length;
+                initialTasks.filter(x => x.status === Status.InProgress).map(x => tempFilteredTasks.push(x));
+            }
+            if (selectedFilters.includes("completed")) {
+                initialCount = filteredTasks.length;
+                initialTasks.filter(x => x.status === Status.Completed).map(x => tempFilteredTasks.push(x));
+            }
             setFilteredTasks(tempFilteredTasks);
             console.log(filteredTasks);
         }
@@ -250,79 +262,79 @@ export function Board(props: Props) {
         console.log(viewdetails + "122")
         return (<>
             {
-              <div  style={{ overflow :'scroll' , width:'93vw', height:'40vw'}}>
-                <Stack horizontal tokens={{ childrenGap: 50 }} styles={stackStyles}>
-                    <div className="students">
-                        <Text block variant='medium' style={{ fontWeight: 'bold' }}>Late</Text>
-                        <StudentCard>
-                            <ActionButton iconProps={addIcon} allowDisabledFocus style={{ color: 'green' }} onClick={() => openAddLateTask()}>Add Task</ActionButton>
-                        </StudentCard>
-                        {addLateTaskClicked && <Addtask status={Status.Open} addParentCall={addParentCall} />
-                        }
-                        <br />
-                        {filteredTasks.filter(x => x.status === Status.Open && x.end.setHours(0, 0, 0, 0) < new Date(Date.now()).setHours(0, 0, 0, 0) && x.end.setHours(0, 0, 0, 0) != new Date(2000, 1, 1).setHours(0, 0, 0, 0)).map(x => { return <TaskCard {...x}></TaskCard> })}
-                    </div>
-                    <div>
-                        <Text block variant='medium' style={{ fontWeight: 'bold' }}>Today</Text>
-                        <StudentCard>
-                            <ActionButton iconProps={addIcon} allowDisabledFocus style={{ color: 'green' }} onClick={() => openAddTodayTask()}>Add Task</ActionButton>
-                        </StudentCard>
-                        {addTodayTaskClicked && <Addtask status={Status.Open} addParentCall={addParentCall} />
-                        }
-                        <br />
-                        {filteredTasks.filter(x => x.status === Status.Open && x.end.setHours(0, 0, 0, 0) === new Date(Date.now()).setHours(0, 0, 0, 0)).map(x => { return <TaskCard {...x}></TaskCard> })}
-                    </div>
-                    <div>
-                        <Text block variant='medium' style={{ fontWeight: 'bold' }}>Tomorrow</Text>
-                        <StudentCard>
-                            <ActionButton iconProps={addIcon} allowDisabledFocus style={{ color: 'green' }} onClick={() => openAddTomorrowTask()}>Add Task</ActionButton>
-                        </StudentCard>
-                        {addTomorrowTaskClicked && <Addtask status={Status.Open} addParentCall={addParentCall} />
-                        }
-                        <br />
-                        {filteredTasks && filteredTasks.filter(x => x.status === Status.Open && x.end.setHours(0, 0, 0, 0) === new Date(Date.now()).next().day().setHours(0, 0, 0, 0)).map(x => { return <TaskCard {...x}></TaskCard> })}
-                    </div>
-                    <div>
-                        <Text block variant='medium' style={{ fontWeight: 'bold' }}>This Week</Text>
-                        <StudentCard>
-                            <ActionButton iconProps={addIcon} allowDisabledFocus style={{ color: 'green' }} onClick={() => openAddThisWeekTask()}>Add Task</ActionButton>
-                        </StudentCard>
-                        {addThisWeekTaskClicked && <Addtask status={Status.Open} addParentCall={addParentCall} />
-                        }
-                        <br />
-                        {filteredTasks && filteredTasks.filter(x => x.status === Status.Open && x.end.setHours(0, 0, 0, 0) > new Date(Date.now()).next().day().setHours(0, 0, 0, 0) && (x.end.setHours(0, 0, 0, 0) < new Date(Date.now()).next().sunday().setHours(0, 0, 0, 0))).map(x => { return <TaskCard {...x}></TaskCard> })}
-                    </div>
-                    <div>
-                        <Text block variant='medium' style={{ fontWeight: 'bold' }}>Next Week</Text>
-                        <StudentCard>
-                            <ActionButton iconProps={addIcon} allowDisabledFocus style={{ color: 'green' }} onClick={() => openAddNextWeekTask()}>Add Task</ActionButton>
-                        </StudentCard>
-                        {addNextWeekTaskClicked && <Addtask status={Status.Open} addParentCall={addParentCall} />
-                        }
-                        <br />
-                        {filteredTasks && filteredTasks.filter(x => x.status === Status.Open && x.end.setHours(0, 0, 0, 0) >= new Date(Date.now()).next().sunday().setHours(0, 0, 0, 0) && x.end.setHours(0, 0, 0, 0) < new Date(Date.now()).next().sunday().addDays(7).setHours(0, 0, 0, 0)).map(x => { return <TaskCard {...x}></TaskCard> })}
-                    </div>
-                    <div>
-                        <Text block variant='medium' style={{ fontWeight: 'bold' }}>Future</Text>
-                        <StudentCard>
-                            <ActionButton iconProps={addIcon} allowDisabledFocus style={{ color: 'green' }} onClick={() => openAddFutureTask()}>Add Task</ActionButton>
-                        </StudentCard>
-                        {addFutureTaskClicked && <Addtask status={Status.Open} addParentCall={addParentCall} />
-                        }
-                        <br />
-                        {filteredTasks && filteredTasks.filter(x => x.status === Status.Open && x.end.setHours(0, 0, 0, 0) >= new Date(Date.now()).next().sunday().addDays(7).setHours(0, 0, 0, 0)).map(x => { return <TaskCard {...x}></TaskCard> })}
-                    </div>
-                    <div>
-                        <Text block variant='medium' style={{ fontWeight: 'bold' }}>No Date</Text>
-                        <StudentCard>
-                            <ActionButton iconProps={addIcon} allowDisabledFocus style={{ color: 'green' }} onClick={() => openAddNoDateTask()}>Add Task</ActionButton>
-                        </StudentCard>
-                        {addNoDateTaskClicked && <Addtask status={Status.Open} addParentCall={addParentCall} />
-                        }
-                        <br />
-                        {filteredTasks && filteredTasks.filter(x => x.status === Status.Open && x.end.setHours(0, 0, 0, 0) === new Date(2000, 1, 1).setHours(0, 0, 0, 0)).map(x => { return <TaskCard {...x}></TaskCard> })}
-                    </div>
-                </Stack>
+                <div style={{ overflow: 'scroll', width: '93vw', height: '40vw' }}>
+                    <Stack horizontal tokens={{ childrenGap: 50 }} styles={stackStyles}>
+                        <div className="students">
+                            <Text block variant='medium' style={{ fontWeight: 'bold' }}>Late</Text>
+                            <StudentCard>
+                                <ActionButton iconProps={addIcon} allowDisabledFocus style={{ color: 'green' }} onClick={() => openAddLateTask()}>Add Task</ActionButton>
+                            </StudentCard>
+                            {addLateTaskClicked && <Addtask status={Status.Open} addParentCall={addParentCall} />
+                            }
+                            <br />
+                            {filteredTasks.filter(x => x.status === Status.Open && x.end.setHours(0, 0, 0, 0) < new Date(Date.now()).setHours(0, 0, 0, 0) && x.end.setHours(0, 0, 0, 0) != new Date(2000, 1, 1).setHours(0, 0, 0, 0)).map(x => { return <TaskCard {...x}></TaskCard> })}
+                        </div>
+                        <div>
+                            <Text block variant='medium' style={{ fontWeight: 'bold' }}>Today</Text>
+                            <StudentCard>
+                                <ActionButton iconProps={addIcon} allowDisabledFocus style={{ color: 'green' }} onClick={() => openAddTodayTask()}>Add Task</ActionButton>
+                            </StudentCard>
+                            {addTodayTaskClicked && <Addtask status={Status.Open} addParentCall={addParentCall} />
+                            }
+                            <br />
+                            {filteredTasks.filter(x => x.status === Status.Open && x.end.setHours(0, 0, 0, 0) === new Date(Date.now()).setHours(0, 0, 0, 0)).map(x => { return <TaskCard {...x}></TaskCard> })}
+                        </div>
+                        <div>
+                            <Text block variant='medium' style={{ fontWeight: 'bold' }}>Tomorrow</Text>
+                            <StudentCard>
+                                <ActionButton iconProps={addIcon} allowDisabledFocus style={{ color: 'green' }} onClick={() => openAddTomorrowTask()}>Add Task</ActionButton>
+                            </StudentCard>
+                            {addTomorrowTaskClicked && <Addtask status={Status.Open} addParentCall={addParentCall} />
+                            }
+                            <br />
+                            {filteredTasks && filteredTasks.filter(x => x.status === Status.Open && x.end.setHours(0, 0, 0, 0) === new Date(Date.now()).next().day().setHours(0, 0, 0, 0)).map(x => { return <TaskCard {...x}></TaskCard> })}
+                        </div>
+                        <div>
+                            <Text block variant='medium' style={{ fontWeight: 'bold' }}>This Week</Text>
+                            <StudentCard>
+                                <ActionButton iconProps={addIcon} allowDisabledFocus style={{ color: 'green' }} onClick={() => openAddThisWeekTask()}>Add Task</ActionButton>
+                            </StudentCard>
+                            {addThisWeekTaskClicked && <Addtask status={Status.Open} addParentCall={addParentCall} />
+                            }
+                            <br />
+                            {filteredTasks && filteredTasks.filter(x => x.status === Status.Open && x.end.setHours(0, 0, 0, 0) > new Date(Date.now()).next().day().setHours(0, 0, 0, 0) && (x.end.setHours(0, 0, 0, 0) < new Date(Date.now()).next().sunday().setHours(0, 0, 0, 0))).map(x => { return <TaskCard {...x}></TaskCard> })}
+                        </div>
+                        <div>
+                            <Text block variant='medium' style={{ fontWeight: 'bold' }}>Next Week</Text>
+                            <StudentCard>
+                                <ActionButton iconProps={addIcon} allowDisabledFocus style={{ color: 'green' }} onClick={() => openAddNextWeekTask()}>Add Task</ActionButton>
+                            </StudentCard>
+                            {addNextWeekTaskClicked && <Addtask status={Status.Open} addParentCall={addParentCall} />
+                            }
+                            <br />
+                            {filteredTasks && filteredTasks.filter(x => x.status === Status.Open && x.end.setHours(0, 0, 0, 0) >= new Date(Date.now()).next().sunday().setHours(0, 0, 0, 0) && x.end.setHours(0, 0, 0, 0) < new Date(Date.now()).next().sunday().addDays(7).setHours(0, 0, 0, 0)).map(x => { return <TaskCard {...x}></TaskCard> })}
+                        </div>
+                        <div>
+                            <Text block variant='medium' style={{ fontWeight: 'bold' }}>Future</Text>
+                            <StudentCard>
+                                <ActionButton iconProps={addIcon} allowDisabledFocus style={{ color: 'green' }} onClick={() => openAddFutureTask()}>Add Task</ActionButton>
+                            </StudentCard>
+                            {addFutureTaskClicked && <Addtask status={Status.Open} addParentCall={addParentCall} />
+                            }
+                            <br />
+                            {filteredTasks && filteredTasks.filter(x => x.status === Status.Open && x.end.setHours(0, 0, 0, 0) >= new Date(Date.now()).next().sunday().addDays(7).setHours(0, 0, 0, 0)).map(x => { return <TaskCard {...x}></TaskCard> })}
+                        </div>
+                        <div>
+                            <Text block variant='medium' style={{ fontWeight: 'bold' }}>No Date</Text>
+                            <StudentCard>
+                                <ActionButton iconProps={addIcon} allowDisabledFocus style={{ color: 'green' }} onClick={() => openAddNoDateTask()}>Add Task</ActionButton>
+                            </StudentCard>
+                            {addNoDateTaskClicked && <Addtask status={Status.Open} addParentCall={addParentCall} />
+                            }
+                            <br />
+                            {filteredTasks && filteredTasks.filter(x => x.status === Status.Open && x.end.setHours(0, 0, 0, 0) === new Date(2000, 1, 1).setHours(0, 0, 0, 0)).map(x => { return <TaskCard {...x}></TaskCard> })}
+                        </div>
+                    </Stack>
                 </div>
             }
         </>)
@@ -331,7 +343,7 @@ export function Board(props: Props) {
 
         return (
             <>{
-                <div style={{ overflow :'scroll' , width:'93vw' , height:'40vw'}}>
+                <div style={{ overflow: 'scroll', width: '93vw', height: '40vw' }}>
                     <Stack horizontal tokens={{ childrenGap: 100 }} styles={stackStyles}>
                         <div className="students">
                             <Text block variant='medium' style={{ fontWeight: 'bold' }}>Not started</Text>

@@ -80,14 +80,16 @@ let textOfGroupBy: string = "Group By Progress";
 export function Header() {
 
 
-  const functeTest = (ev?: React.MouseEvent<HTMLElement> | React.KeyboardEvent<HTMLElement>, item?: IContextualMenuItem) => {
+  const filterApplied = (ev?: React.MouseEvent<HTMLElement> | React.KeyboardEvent<HTMLElement>, item?: IContextualMenuItem) => {
     let selectedVal: string = item !== undefined ? item.key : "";
+    if (!selectedFilters.includes(selectedVal)) {
 
-    selectedFilters.push(selectedVal);
-    textOfFilter = "Filter(" + selectedFilters.length + ")";
-    console.log("DueDateclicked" + view);
-    setFilterCount(prevCount => prevCount + 1)
-    previousLength = previousLength + 1;
+      selectedFilters.push(selectedVal);
+      textOfFilter = "Filter(" + selectedFilters.length + ")";
+      console.log("DueDateclicked" + view);
+      setFilterCount(prevCount => prevCount + 1)
+      previousLength = previousLength + 1;
+    }
   }
   const filterProps: IContextualMenuProps = {
     items: [
@@ -96,13 +98,13 @@ export function Header() {
         text: 'Due',
         subMenuProps: {
           items: [
-            { key: 'late', text: 'Late', onClick: functeTest },
-            { key: 'today', text: 'Today', onClick: functeTest },
-            { key: 'tomorrow', text: 'Tomorrow', onClick: functeTest },
-            { key: 'thisWeek', text: 'This week', onClick: functeTest },
-            { key: 'nextWeek', text: 'Next Week', onClick: functeTest },
-            { key: 'future', text: 'Future', onClick: functeTest },
-            { key: 'noDate', text: 'No Date', onClick: functeTest },
+            { key: 'late', text: 'Late', onClick: filterApplied },
+            { key: 'today', text: 'Today', onClick: filterApplied },
+            { key: 'tomorrow', text: 'Tomorrow', onClick: filterApplied },
+            { key: 'thisWeek', text: 'This week', onClick: filterApplied },
+            { key: 'nextWeek', text: 'Next Week', onClick: filterApplied },
+            { key: 'future', text: 'Future', onClick: filterApplied },
+            { key: 'noDate', text: 'No Date', onClick: filterApplied },
           ],
         }
       },
@@ -111,9 +113,9 @@ export function Header() {
         text: 'Progress',
         subMenuProps: {
           items: [
-            { key: 'noStarted', text: 'Not Started', iconProps: { iconName: 'StatusCircleRing' } },
-            { key: 'inProgress', text: 'In progress', iconProps: { iconName: 'CircleHalfFull' } },
-            { key: 'completed', text: 'Completed', iconProps: { iconName: 'CompletedSolid', style: { color: 'green' } } }
+            { key: 'notStarted', text: 'Not Started', onClick: filterApplied, iconProps: { iconName: 'StatusCircleRing' } },
+            { key: 'inProgress', text: 'In progress', onClick: filterApplied, iconProps: { iconName: 'CircleHalfFull' } },
+            { key: 'completed', text: 'Completed', onClick: filterApplied, iconProps: { iconName: 'CompletedSolid', style: { color: 'green' } } }
           ],
         },
       },
@@ -185,6 +187,7 @@ export function Header() {
                 'data-title': 'Board',
               }}
             >
+
               {
                 <TabClass>
                   {/* {selectedFilters && selectedFilters.length > previousLength && <Board SelectedView={view} SelectedFilter={selectedFilters} ></Board>} */}
