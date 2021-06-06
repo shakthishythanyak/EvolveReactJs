@@ -7,7 +7,6 @@ import Board from "./Board";
 import { ContextualMenuItemType, DirectionalHint, IContextualMenuItem } from '@fluentui/react/lib/ContextualMenu';
 import { CommandBarButton, DefaultButton } from '@fluentui/react/lib/Button';
 import { useBoolean, useConst } from '@fluentui/react-hooks';
-import { GroupedListCustomCheckboxExample } from './components/filter/filter';
 import './header.css';
 
 const NavContainer = styled.div`
@@ -350,7 +349,7 @@ export function Header() {
 
                       {showProgressOptions && <table>
                         <tr>
-                          <CommandBarButton iconProps={{ iconName: 'StatusCircleRing' }} className="listButtonText" onClick={(e) => optionSelected("notStarted")}>
+                          <CommandBarButton iconProps={{ iconName: 'StatusCircleRing', style: { color: 'gray' } }} className="listButtonText" onClick={(e) => optionSelected("notStarted")}>
                             <td style={{ width: '200px', paddingLeft: '15px', textAlign: 'left', fontSize: 'large' }}>Not Started</td>
                             <td>{selectedFilters.includes("notStarted") && <Icon className="iconTick" iconName="CheckMark"></Icon>}</td>
                           </CommandBarButton>
@@ -362,7 +361,7 @@ export function Header() {
                           </CommandBarButton>
                         </tr>
                         <tr>
-                          <CommandBarButton iconProps={{ iconName: 'CompletedSolid', color: 'green' }} className="listButtonText" onClick={(e) => optionSelected("completed")}>
+                          <CommandBarButton iconProps={{ iconName: 'CompletedSolid', style: { color: 'green' } }} className="listButtonText" onClick={(e) => optionSelected("completed")}>
                             <td style={{ width: '200px', paddingLeft: '15px', textAlign: 'left', fontSize: 'large' }}>Completed</td>
                             <td>{selectedFilters.includes("completed") && <Icon className="iconTick" iconName="CheckMark"></Icon>}</td>
                           </CommandBarButton>

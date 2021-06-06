@@ -47,9 +47,9 @@ export const Addtask: React.FC<Props> = ({ status, addParentCall }) => {
   };
 
   const options: IDropdownOption[] = [
-    { key: 'Shakthi', text: 'Shakthi Shythanya' },
-    { key: 'Reshma', text: 'Reshma V' },
-    { key: 'Braja', text: 'Braja' }
+    { key: 'Shakthi', text: 'Shakthi Shythanya' }
+    // { key: 'Reshma', text: 'Reshma V' },
+    // { key: 'Braja', text: 'Braja' }
   ];
   const facepileProps: IFacepileProps = {
     personas: [

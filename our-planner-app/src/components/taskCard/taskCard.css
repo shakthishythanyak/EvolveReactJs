@@ -1,11 +1,11 @@
 .iconOpen {
     grid-column: 1 / 10;
     grid-row: 1;
-    padding-top: 1px;
+    padding-top: -5px;
     align-content: center;
     outline-color: gray;
     padding-left: 10px;
-    font-size: larger;
+    font-size: large;
     color: rgb(0, 120, 212);  
   }
   .iconInProgress {
