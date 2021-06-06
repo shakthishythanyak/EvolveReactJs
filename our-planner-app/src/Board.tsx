@@ -6,6 +6,7 @@ import { ITaskInfo, Status } from './Interfaces/task/ITaskInfo';
 import { TaskCard } from './components/taskCard/taskCard';
 import moment from 'moment';
 import "datejs";
+import { stringify } from 'querystring';
 
 const StudentCard = styled.div`
     border-style: solid;
@@ -97,10 +98,12 @@ const addStatusCircle: IIconProps = { iconName: 'StatusCircleRing' };
 interface IBoardProps {
     SelectedView: string;
     SelectedFilter: string[];
+    AppliedFilter: string;
 }
 
 var viewdetails = "Progress";
 var selectedFilters: string[] = [];
+var filteredDescription: string;
 type Props = IBoardProps;
 
 export function Board(props: Props) {
@@ -127,18 +130,23 @@ export function Board(props: Props) {
         console.log("Check entry");
         getFilteredTasks();
 
-    }, [selectedFilters.length]);
+    }, [selectedFilters.length, filteredDescription]);
 
     if (viewdetails != props.SelectedView && props.SelectedView != '') {
         viewdetails = props.SelectedView;
     }
+    if (filteredDescription != props.AppliedFilter) {
+        filteredDescription = props.AppliedFilter;
+        console.log(filteredDescription);
+    }
     const getFilteredTasks = () => {
         let tempFilteredTasks: ITaskInfo[] = [];
         setFilteredTasks([]);
-        if (selectedFilters.length == 0) {
-            setFilteredTasks(initialTasks);
-        }
-        else {
+        console.log("Entered Else");
+        console.log("Initial filtered", filteredTasks);
+        console.log("Initial tasks", initialTasks);
+        if (selectedFilters.length !== 0) {
+
             console.log("Entered Else");
             console.log("Initial filtered", filteredTasks);
             console.log("Initial tasks", initialTasks);
@@ -187,9 +195,28 @@ export function Board(props: Props) {
                 initialCount = filteredTasks.length;
                 initialTasks.filter(x => x.status === Status.Completed).map(x => tempFilteredTasks.push(x));
             }
-            setFilteredTasks(tempFilteredTasks);
-            console.log(filteredTasks);
         }
+
+        if (filteredDescription !== '' && filteredDescription !== undefined && tempFilteredTasks.length !== 0) {
+            console.log(filteredDescription);
+            setFilteredTasks(tempFilteredTasks.filter(x => x.taskName.match(filteredDescription)));
+        }
+        else if (filteredDescription !== '' && filteredDescription !== undefined && tempFilteredTasks.length == 0) {
+            console.log(filteredDescription);
+            setFilteredTasks(initialTasks.filter(x => x.taskName.match(filteredDescription)));
+        }
+        else if (tempFilteredTasks.length !== 0) {
+            setFilteredTasks(tempFilteredTasks);
+        }
+        else if (tempFilteredTasks.length === 0 && selectedFilters.length !== 0) {
+            setFilteredTasks([]);
+        }
+        else {
+            console.log(filteredDescription);
+            setFilteredTasks([]);
+            setFilteredTasks(initialTasks);
+        }
+
     }
 
     var initialCount: Number = initialTasks.length;
