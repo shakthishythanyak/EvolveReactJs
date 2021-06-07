@@ -2,12 +2,14 @@ import React, { useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 import { FontIcon, mergeStyles, IStyleSet, Text, Label, ILabelStyles, Pivot, PivotItem, initializeIcons, IPersonaSharedProps, Persona, PersonaSize, CommandButton, IContextualMenuProps, IIconProps, Callout, FocusTrapZone, TextField, Dropdown, IDropdownOption, DropdownMenuItemType, Stack, IStackTokens, Icon, IIconStyles, IStyle } from '@fluentui/react';
 import profile from "./Profile.jpg";
-import Calendar from "./Calendar";
-import Board from "./Board";
+import {Board,initialTasks} from "./Board";
 import { ContextualMenuItemType, DirectionalHint, IContextualMenuItem } from '@fluentui/react/lib/ContextualMenu';
 import { CommandBarButton, DefaultButton } from '@fluentui/react/lib/Button';
 import { useBoolean, useConst } from '@fluentui/react-hooks';
 import './header.css';
+import { ITaskInfo, Status } from './Interfaces/task/ITaskInfo';
+import {DateLocalizer } from 'react-big-calendar'
+import SelectableCalendar from './Calendar';
 
 const NavContainer = styled.div`
   width: 100%;
@@ -85,8 +87,14 @@ let dueDateArray: string[] = ["late", "noDate", "today", "tomorrow", "thisWeek",
 let progressArray: string[] = ["notStarted", "inProgress", "completed"];
 var selectedDueDateFilters: string[] = [];
 var selectedProgessFilters: string[] = [];
+export let TaskList:ITaskInfo[]=initialTasks;
 export function Header() {
 
+ const handleCallback = (tasks:ITaskInfo[]) =>{
+TaskList=tasks;
+//console.log("fromHeader");
+//console.log(JSON.stringify(TaskList));
+}
   const stackTokens: IStackTokens = { childrenGap: 20 };
   const filterApplied = (ev?: React.MouseEvent<HTMLElement> | React.KeyboardEvent<HTMLElement>, item?: IContextualMenuItem) => {
     let selectedVal: string = item !== undefined ? item.key : "";
@@ -238,13 +246,13 @@ export function Header() {
               {
                 <TabClass>
                   {/* {selectedFilters && selectedFilters.length > previousLength && <Board SelectedView={view} SelectedFilter={selectedFilters} ></Board>} */}
-                  <Board SelectedView={view} SelectedFilter={selectedFilters} AppliedFilter={filterDescription} ></Board>
+                  <Board SelectedView={view} SelectedFilter={selectedFilters} AppliedFilter={filterDescription} parentCallback={handleCallback}></Board>
                 </TabClass>
               }
             </PivotItem>
             <PivotItem headerText="Schedule">
               <TabClass>
-                <Calendar></Calendar>
+                <SelectableCalendar myEvents={TaskList} ></SelectableCalendar>
               </TabClass>
             </PivotItem>
             <PivotItem headerText="...">

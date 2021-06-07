@@ -97,6 +97,7 @@ interface IBoardProps {
     SelectedView: string;
     SelectedFilter: string[];
     AppliedFilter: string;
+    parentCallback: (tasks:ITaskInfo[]) => void;
 }
 
 var viewdetails = "Progress";
@@ -281,6 +282,7 @@ export function Board(props: Props) {
         console.log(new Date(Date.now()).next().day().setHours(0, 0, 0, 0));
         console.log(new Date(Date.now()).next().day().setHours(0, 0, 0, 0));
         console.log((new Date(2000, 1, 1).setHours(0, 0, 0, 0)));
+        props.parentCallback(initialTasks);
     }
     const updateParentCall = (task: ITaskInfo) => {
         initialTasks = initialTasks.filter(x => x.id !== task.id);

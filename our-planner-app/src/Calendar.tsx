@@ -14,8 +14,10 @@ import {initialTasks} from "./Board"
 import './components/task/task.css';
 
 const localizer = momentLocalizer(moment);
-const currentUser = "Braja";
+const currentUser = "Shakthi";
 const myEvents:ITaskInfo[]=initialTasks.filter(x=>x.assigned==currentUser);
+//console.log(json);
+
 
 // const myEvents:ITaskInfo[] = [
 //   { id: 1, taskName: "My Task Number 1", start: new Date(), end: new Date(), status:Status.Open, assigned:"Braja"},
@@ -28,19 +30,20 @@ const allViews: View[] = ['week', 'month'];
 //class customview implements View
 
 interface Props {
-    localizer: DateLocalizer;
+    //localizer: DateLocalizer;
     myEvents:ITaskInfo[];
+    //addParentCall: (task: ITaskInfo) => void;
 }
 
-function SelectableCalendar (props: Props) {
+export default function SelectableCalendar (props: Props) {
     // const [events, setEvents] = useState([
     //   //{start: moment().toDate(), end: moment().add(1, "hours").toDate(), title: "test", allDay:true}
     //   {}
     // ] as CalendarEvent[]);
 
-    const {localizer,myEvents} = props;
+    const {myEvents} = props;
     const [events, setEvents] = useState( myEvents as ITaskInfo[]);
-    
+    console.log(myEvents)
     //const handleSelect = ({ start, end} :{start:any, end:any}) => {
       const handleSelect = ({ start, end} :{start:any, end:any}) => {
         const title = window.prompt('New Event name')
@@ -63,7 +66,7 @@ function SelectableCalendar (props: Props) {
         }
       }
     return (
-      <>
+      <><div style={{ height: "80vh" }}>
         <Calendar
           selectable
           localizer={localizer}
@@ -85,6 +88,7 @@ function SelectableCalendar (props: Props) {
           style={{  }}
 
         />
+        </div>
       </>
     )
   }
@@ -115,11 +119,12 @@ function SelectableCalendar (props: Props) {
           </span>    
     );
     }
-  }  
-export default function Availability() {
-    return (
-      <div style={{ height: "80vh" }}>
-        <SelectableCalendar localizer={localizer} myEvents={myEvents} />
-      </div>
-    );
-  }
+  } 
+  //export default SelectableCalendar; 
+// export default function Availability() {
+//     return (
+//       <div style={{ height: "80vh" }}>
+//         <SelectableCalendar localizer={localizer} myEvents={myEvents} />
+//       </div>
+//     );
+//   }
