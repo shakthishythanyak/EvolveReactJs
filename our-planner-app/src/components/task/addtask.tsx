@@ -58,18 +58,6 @@ export const Addtask: React.FC<Props> = ({ status, addParentCall }) => {
         personaName: 'Shakthi Shythanya',
         imageUrl: '//www.fillmurray.com/200/200'
 
-      },
-      {
-        data: 'Reshma',
-        personaName: 'Reshma V',
-        imageInitials: 'RV',
-        initialsColor: PersonaInitialsColor.green
-      },
-      {
-        data: 'Braja',
-        personaName: 'Braja Das',
-        imageInitials: 'BD',
-        initialsColor: PersonaInitialsColor.purple
       }
     ]
   };
@@ -123,10 +111,7 @@ export const Addtask: React.FC<Props> = ({ status, addParentCall }) => {
       status: status,
       assigned: "Shakthi"
     }
-    //task = JSON.parse(taskToBeAdded);
-    //initialTasks.push(task);
     addParentCall(task);
-    //console.log(initialTasks);
   }
 
   return (<>

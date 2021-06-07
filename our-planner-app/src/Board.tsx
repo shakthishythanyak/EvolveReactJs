@@ -19,14 +19,23 @@ const StudentCard = styled.div`
     margin: 7px;
     display: 'flex';
     justify-content: 'center';
-    width: 300px;
+    width: 350px;
     margin-left: 1px;
 `;
 
 export let initialTasks: ITaskInfo[] = [
     {
         id: 1,
-        taskName: "Add Informtaion",
+        taskName: "Submit Mini Project",
+        desc: "To do",
+        start: new Date(Date.now()),
+        end:new Date('2021-06-09T04:00:00Z'),
+        status: Status.InProgress,
+        assigned: "Shakthi"
+    },
+    {
+        id: 2,
+        taskName: "Test Mini Project Modules",
         desc: "To do",
         start: new Date(Date.now()),
         end: new Date(Date.now()),
@@ -34,50 +43,32 @@ export let initialTasks: ITaskInfo[] = [
         assigned: "Shakthi"
     },
     {
-        id: 2,
-        taskName: "Add Informtaion",
-        desc: "To do",
-        start: new Date(Date.now()),
-        end: new Date(Date.now() - 2348239423),
-        status: Status.Completed,
-        assigned: "Reshma"
-    },
-    {
         id: 3,
-        taskName: "Review FDR cases",
+        taskName: "Review Mini Project Design",
         desc: "To do",
         start: new Date(Date.now()),
-        end: new Date(new Date(Date.now()).setDate(new Date(Date.now()).getDate() + 3)),
-        status: Status.Open,
-        assigned: "Braja"
+        end:new Date('2021-05-18T04:00:00Z'),
+        status: Status.Completed,
+        assigned: "Shakthi"
     },
     {
         id: 4,
-        taskName: "Review FDR cases",
+        taskName: "Complete Mini Project Implementation",
         desc: "To do",
         start: new Date(Date.now()),
-        end: new Date(new Date(Date.now()).setDate(new Date(Date.now()).getDate() + 16)),
-        status: Status.Open,
-        assigned: "Braja"
+        end:new Date('2021-06-07T04:00:00Z'),
+        status: Status.Completed,
+        assigned: "Shakthi"
     },
     {
         id: 5,
-        taskName: "Review FDR cases",
+        taskName: "Review Project implementation by Panels",
         desc: "To do",
         start: new Date(Date.now()),
-        end: new Date(new Date(Date.now()).setDate(new Date(Date.now()).getDate() + 7)),
+        end:new Date('2021-06-11T04:00:00Z'),
         status: Status.Open,
-        assigned: "Braja"
+        assigned: "Shakthi"
     },
-    {
-        id: 6,
-        taskName: "Review FDR cases",
-        desc: "To do",
-        start: new Date(Date.now()),
-        end: new Date(new Date(Date.now()).setDate(new Date(Date.now()).getDate() + 1)),
-        status: Status.Open,
-        assigned: "Braja"
-    }
 ];
 
 const stackStyles: IStackStyles = {
@@ -142,8 +133,6 @@ export function Board(props: Props) {
         let tempFilteredTasks: ITaskInfo[] = [];
         setFilteredTasks([]);
         console.log("Entered Else");
-        console.log("Initial filtered", filteredTasks);
-        console.log("Initial tasks", initialTasks);
         if (selectedFilters.length !== 0) {
 
             console.log("Entered Else");
@@ -198,11 +187,15 @@ export function Board(props: Props) {
 
         if (filteredDescription !== '' && filteredDescription !== undefined && tempFilteredTasks.length !== 0) {
             console.log(filteredDescription);
-            setFilteredTasks(tempFilteredTasks.filter(x => x.taskName.match(filteredDescription)));
+            setFilteredTasks(tempFilteredTasks.filter(x => x.taskName.toUpperCase().match(String(filteredDescription).toUpperCase())));
+            console.log("Reshma Testing here");
+            console.log(String(filteredDescription).toUpperCase());
         }
         else if (filteredDescription !== '' && filteredDescription !== undefined && tempFilteredTasks.length == 0) {
             console.log(filteredDescription);
-            setFilteredTasks(initialTasks.filter(x => x.taskName.match(filteredDescription)));
+            setFilteredTasks(initialTasks.filter(x => x.taskName.toUpperCase().match(String(filteredDescription).toUpperCase())));
+            console.log("Reshma Testing here");
+            console.log(String(filteredDescription).toUpperCase());
         }
         else if (tempFilteredTasks.length !== 0) {
             setFilteredTasks(tempFilteredTasks);

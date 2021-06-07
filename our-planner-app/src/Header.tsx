@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 import { FontIcon, mergeStyles, IStyleSet, Text, Label, ILabelStyles, Pivot, PivotItem, initializeIcons, IPersonaSharedProps, Persona, PersonaSize, CommandButton, IContextualMenuProps, IIconProps, Callout, FocusTrapZone, TextField, Dropdown, IDropdownOption, DropdownMenuItemType, Stack, IStackTokens, Icon, IIconStyles, IStyle } from '@fluentui/react';
-import profile from "./Profile.jpg";
+import profile from "./react.png";
 import {Board,initialTasks} from "./Board";
 import { ContextualMenuItemType, DirectionalHint, IContextualMenuItem } from '@fluentui/react/lib/ContextualMenu';
 import { CommandBarButton, DefaultButton } from '@fluentui/react/lib/Button';
@@ -205,7 +205,7 @@ TaskList=tasks;
   const menuProps = useConst<IContextualMenuProps>(() => ({
     shouldFocusOnMount: false,
     items: [
-      { key: 'DueDate', text: 'Due Date', onClick: handleGroupByDueDateClick, },
+      { key: 'DueDate', text: 'Due Date', onClick: handleGroupByDueDateClick},
       { key: 'Progress', text: 'Progress', onClick: handleGroupByProgressClick }
     ],
   }));
@@ -264,7 +264,7 @@ TaskList=tasks;
           <table>
             <tr>
               <td>
-                <Persona {...examplePersona} text="Reshma Vishwanath" size={PersonaSize.size32} /></td>
+                <Persona {...examplePersona} text="Shakthi Shythanya" size={PersonaSize.size32} /></td>
               <td>
                 <div ref={buttonContainerRef}>
                   <CommandButton text={textOfFilter} onClick={toggleShowFilter} />

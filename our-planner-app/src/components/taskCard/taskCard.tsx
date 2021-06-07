@@ -29,7 +29,7 @@ export const TaskCard: React.FC<Props> = ({ taskInfo, updateParentCall }) => {
   const stackStyles: IStackStyles = {
     root: {
       height: 170,
-      width: 300
+      width: 350
     }
   };
   const facepileProps: IFacepileProps = {
