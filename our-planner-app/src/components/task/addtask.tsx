@@ -158,7 +158,7 @@ export const Addtask: React.FC<Props> = ({ status, addParentCall }) => {
             onClick={toggleShowCalendar}
             name="dueDate"
             id="dueDate"
-            text={!selectedDate ? 'Set due date' : selectedDate.toLocaleDateString()}>
+            text={selectedDate.getFullYear() === 2000 ? 'Set due date' : selectedDate.toLocaleDateString()}>
           </DefaultButton>
         </div>
         {showCalendar && (
