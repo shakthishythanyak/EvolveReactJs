@@ -75,11 +75,11 @@ export default function SelectableCalendar (props: Props) {
          views={allViews}
            defaultDate={new Date()} 
            onSelectEvent={event => Event}
-           eventPropGetter={event=>({ style:{backgroundColor: "white",         borderRadius: '0px',          opacity: 0.8,          color: 'black', border: '0px',display: 'block'}})}
+           eventPropGetter={event=>({ style:{backgroundColor: "skyblue",         borderRadius: '0px',          opacity: 0.8,          color: 'black', border: '0px',display: 'block'}})}
            
           //onSelectSlot={handleSelect}
         startAccessor='start'
-        endAccessor='end'
+        endAccessor='start'
         titleAccessor='taskName'
           components={{
             event: Event

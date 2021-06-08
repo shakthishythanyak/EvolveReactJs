@@ -28,8 +28,8 @@ export let initialTasks: ITaskInfo[] = [
         id: 1,
         taskName: "Submit Mini Project",
         desc: "To do",
-        start: new Date(Date.now()),
-        end:new Date('2021-06-09T04:00:00Z'),
+        start:new Date(new Date(Date.now()).setDate(new Date(Date.now()).getDate() + 3)),
+        end:new Date(new Date(Date.now()).setDate(new Date(Date.now()).getDate() + 3)),
         status: Status.InProgress,
         assigned: "Shakthi"
     },
@@ -37,8 +37,8 @@ export let initialTasks: ITaskInfo[] = [
         id: 2,
         taskName: "Test Mini Project Modules",
         desc: "To do",
-        start: new Date(Date.now()),
-        end: new Date(Date.now()),
+        start: new Date(new Date(Date.now()).setDate(new Date(Date.now()).getDate() + 2)),
+        end:new Date(new Date(Date.now()).setDate(new Date(Date.now()).getDate() + 2)),
         status: Status.InProgress,
         assigned: "Shakthi"
     },
@@ -46,8 +46,8 @@ export let initialTasks: ITaskInfo[] = [
         id: 3,
         taskName: "Review Mini Project Design",
         desc: "To do",
-        start: new Date(Date.now()),
-        end:new Date('2021-05-18T04:00:00Z'),
+        start: new Date(new Date(Date.now()).setDate(new Date(Date.now()).getDate() + 1)),
+        end:new Date(new Date(Date.now()).setDate(new Date(Date.now()).getDate() + 1)),
         status: Status.Completed,
         assigned: "Shakthi"
     },
@@ -55,8 +55,8 @@ export let initialTasks: ITaskInfo[] = [
         id: 4,
         taskName: "Complete Mini Project Implementation",
         desc: "To do",
-        start: new Date(Date.now()),
-        end:new Date('2021-06-07T04:00:00Z'),
+        start: new Date(new Date(Date.now()).setDate(new Date(Date.now()).getDate() -1)),
+        end:new Date(new Date(Date.now()).setDate(new Date(Date.now()).getDate() -1)),
         status: Status.Completed,
         assigned: "Shakthi"
     },
@@ -65,7 +65,7 @@ export let initialTasks: ITaskInfo[] = [
         taskName: "Review Project implementation by Panels",
         desc: "To do",
         start: new Date(Date.now()),
-        end:new Date('2021-06-11T04:00:00Z'),
+        end:new Date(Date.now()),
         status: Status.Open,
         assigned: "Shakthi"
     },
