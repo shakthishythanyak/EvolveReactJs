@@ -171,18 +171,36 @@ export function Board(props: Props) {
                 initialCount = filteredTasks.length;
                 initialTasks.filter(x => x.end.setHours(0, 0, 0, 0) === new Date(2000, 1, 1).setHours(0, 0, 0, 0)).map(x => tempFilteredTasks.push(x));
             }
+            if (tempFilteredTasks.length === 0) {
+                if (selectedFilters.includes("notStarted")) {
+                    initialCount = filteredTasks.length;
+                    initialTasks.filter(x => x.status == Status.Open).map(x => tempFilteredTasks.push(x));
+                }
+                if (selectedFilters.includes("inProgress")) {
+                    initialCount = filteredTasks.length;
+                    initialTasks.filter(x => x.status === Status.InProgress).map(x => tempFilteredTasks.push(x));
+                }
+                if (selectedFilters.includes("completed")) {
+                    initialCount = filteredTasks.length;
+                    initialTasks.filter(x => x.status === Status.Completed).map(x => tempFilteredTasks.push(x));
+                }
+            }
+            else {
+                let tempTasks: ITaskInfo[] = [];
 
-            if (selectedFilters.includes("notStarted")) {
-                initialCount = filteredTasks.length;
-                initialTasks.filter(x => x.status == Status.Open).map(x => tempFilteredTasks.push(x));
-            }
-            if (selectedFilters.includes("inProgress")) {
-                initialCount = filteredTasks.length;
-                initialTasks.filter(x => x.status === Status.InProgress).map(x => tempFilteredTasks.push(x));
-            }
-            if (selectedFilters.includes("completed")) {
-                initialCount = filteredTasks.length;
-                initialTasks.filter(x => x.status === Status.Completed).map(x => tempFilteredTasks.push(x));
+                if (selectedFilters.includes("notStarted")) {
+                    initialCount = filteredTasks.length;
+                    tempFilteredTasks.filter(x => x.status === Status.Open).map(x => tempTasks.push(x));
+                }
+                if (selectedFilters.includes("inProgress")) {
+                    initialCount = filteredTasks.length;
+                    tempFilteredTasks.filter(x => x.status === Status.InProgress).map(x => tempTasks.push(x));
+                }
+                if (selectedFilters.includes("completed")) {
+                    initialCount = filteredTasks.length;
+                    tempFilteredTasks.filter(x => x.status === Status.Completed).map(x => tempTasks.push(x));
+                }
+                tempFilteredTasks = tempTasks;
             }
         }
         if (filteredDescription !== '' && filteredDescription !== undefined && tempFilteredTasks.length !== 0) {
