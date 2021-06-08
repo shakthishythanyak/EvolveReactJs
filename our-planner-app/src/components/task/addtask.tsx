@@ -138,10 +138,10 @@ export const Addtask: React.FC<Props> = ({ date, status, addParentCall }) => {
       Your task needs a name
     </span>
   )
-  const [showResults, setShowResults] = React.useState(false)
+  const [showValidation, setshowValidation] = React.useState(false)
   const addTask = () => {
     if(taskName.length == 0){
-      setShowResults(true)
+      setshowValidation(true)
     } 
     else
     {
@@ -181,14 +181,12 @@ export const Addtask: React.FC<Props> = ({ date, status, addParentCall }) => {
             name="taskName"
             onChange={evt => setTaskNameValue(evt.currentTarget.value)}
             placeholder="Enter a task name"
+            onKeyDown = {(event) => {{setshowValidation(false)}}}
             borderless
             style={{ backgroundColor: '#EFEEEE', borderBottom: '2px solid', borderColor: 'green' }}
           />
-          { showResults ? <Results /> : null }
+          { showValidation ? <Results /> : null }
         </span>
-      </Stack>
-      <Stack horizontal disableShrink tokens={horizontalGapStackTokens} hidden>
-      
       </Stack>
       <Stack horizontal disableShrink tokens={horizontalGapStackTokens}>
         <Icon iconName="Taskboard" className="icon" />
