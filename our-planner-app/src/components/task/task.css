@@ -52,3 +52,11 @@ display: grid;
     color: rgb(75, 73, 73);
     font-weight: 600;
   }
+  .requiredfield {
+    grid-column: 2 / 12;
+    grid-row: 1;
+    padding-top: 12px;
+    color: rgb(164, 38, 44);
+    font-weight: 600;
+    font-size: small;
+  }

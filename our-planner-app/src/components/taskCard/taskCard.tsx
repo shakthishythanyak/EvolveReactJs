@@ -3,6 +3,7 @@ import { useBoolean } from "@fluentui/react-hooks";
 import React, { useState } from "react";
 import { ITaskInfo, Status } from "../../Interfaces/task/ITaskInfo";
 import './taskCard.css';
+import profile from "../../react.png";
 
 interface propFromDispatch {
   updateParentCall: (task: ITaskInfo) => void;
@@ -36,7 +37,7 @@ export const TaskCard: React.FC<Props> = ({ taskInfo, updateParentCall }) => {
       {
         data: 'Shakthi',
         personaName: 'Shakthi Shythanya',
-        imageUrl: '//www.fillmurray.com/200/200'
+        imageUrl: profile
       },
       {
         data: 'Reshma',

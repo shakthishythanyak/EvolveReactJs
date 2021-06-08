@@ -3,6 +3,7 @@ import { useBoolean } from '@fluentui/react-hooks';
 import React from 'react';
 import { ITaskInfo, Status } from '../../Interfaces/task/ITaskInfo';
 import './task.css';
+import profile from "../../react.png";
 
 interface propFromDispatch {
   addParentCall: (task: ITaskInfo) => void;
@@ -18,7 +19,7 @@ export const Addtask: React.FC<Props> = ({ date, status, addParentCall }) => {
 
   const stackStyles: IStackStyles = {
     root: {
-      height: 200,
+      height: 220,
       background: DefaultPalette.themeTertiary,
       overflow: 'hidden',
       width: 300,
@@ -52,7 +53,7 @@ export const Addtask: React.FC<Props> = ({ date, status, addParentCall }) => {
       {
         data: 'Shakthi',
         personaName: 'Shakthi Shythanya',
-        imageUrl: '//www.fillmurray.com/200/200'
+        imageUrl: profile
 
       }
     ]
@@ -132,7 +133,18 @@ export const Addtask: React.FC<Props> = ({ date, status, addParentCall }) => {
     [hideCalendar],
   );
   var task: ITaskInfo;
+  const Results = () => (
+    <span className="requiredfield">
+      Your task needs a name
+    </span>
+  )
+  const [showResults, setShowResults] = React.useState(false)
   const addTask = () => {
+    if(taskName.length == 0){
+      setShowResults(true)
+    } 
+    else
+    {
     console.log(date);
     if (date !== "progress" && date !== "noDate") {
       setSelectedDate(calendarDate);
@@ -156,6 +168,7 @@ export const Addtask: React.FC<Props> = ({ date, status, addParentCall }) => {
     }
     addParentCall(task);
   }
+  }
 
   return (<>
     <Stack styles={stackStyles} style={{ backgroundColor: 'white', boxShadow: 'rgba(0, 0, 0, 0.35) 0px 5px 15px', margin: '2px 2px 2px 2px' }}>
@@ -163,6 +176,7 @@ export const Addtask: React.FC<Props> = ({ date, status, addParentCall }) => {
         <Icon iconName="LocationCircle" className="icon" />
         <span className="textControl">
           <TextField
+            required
             id="taskName"
             name="taskName"
             onChange={evt => setTaskNameValue(evt.currentTarget.value)}
@@ -170,7 +184,11 @@ export const Addtask: React.FC<Props> = ({ date, status, addParentCall }) => {
             borderless
             style={{ backgroundColor: '#EFEEEE', borderBottom: '2px solid', borderColor: 'green' }}
           />
+          { showResults ? <Results /> : null }
         </span>
+      </Stack>
+      <Stack horizontal disableShrink tokens={horizontalGapStackTokens} hidden>
+      
       </Stack>
       <Stack horizontal disableShrink tokens={horizontalGapStackTokens}>
         <Icon iconName="Taskboard" className="icon" />
