@@ -13,7 +13,6 @@ const mapTaskInfoToProps = (taskInfo: ITaskInfo) => ({
 
 type Props = ReturnType<typeof mapTaskInfoToProps> & propFromDispatch;
 export const TaskCard: React.FC<Props> = ({ taskInfo, updateParentCall }) => {
-  //export const TaskCard: React.FC<Props> = ({ taskInfo }) => {
   var isStriked = false;
   var isOverDue = false;
   var imageToDisplay = "LocationCircle";
@@ -70,19 +69,12 @@ export const TaskCard: React.FC<Props> = ({ taskInfo, updateParentCall }) => {
     var newFacepileTotal = { personas: facepersonas };
     return newFacepileTotal;
   }
-  const getFirstName = () => {
-    var lastSpaceElm = taskInfo.assigned.indexOf(" ");
-    var firstName = lastSpaceElm !== -1 ? taskInfo.assigned.substr(0, lastSpaceElm) : taskInfo.assigned;
-    return firstName
-  }
   const getInfoByTaskStatus = () => {
     var currentDate = new Date(new Date(Date.now()).setHours(0, 0, 0, 0));
-    var statusText = getStatus();
-    if (taskInfo.end < currentDate) {
+    if (taskInfo.end < currentDate && taskInfo.end.getFullYear() !== 2000) {
       isOverDue = true;
     }
 
-    // taskStatusDesc = isOverDue ? getFirstName() + "'s planner overdue task" : getFirstName() + "'s planner " + statusText + " task";
     if (taskInfo.status == Status.Open) {
       imageToDisplay = "LocationCircle";
       className = "iconOpen"
@@ -104,7 +96,6 @@ export const TaskCard: React.FC<Props> = ({ taskInfo, updateParentCall }) => {
   }
 
   const filterApplied = (selectedVal: string) => {
-    //let selectedVal: string = item !== undefined ? item.key : "";
     taskInfo.status = selectedVal === "notStarted" ? Status.Open : selectedVal === "inProgress" ? Status.InProgress : Status.Completed;
     toggleIsCalloutVisible();
     updateParentCall(taskInfo);

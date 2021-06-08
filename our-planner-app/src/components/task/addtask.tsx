@@ -2,22 +2,20 @@ import { Stack, TextField, ActionButton, PrimaryButton, IStackStyles, DefaultPal
 import { useBoolean } from '@fluentui/react-hooks';
 import React from 'react';
 import { ITaskInfo, Status } from '../../Interfaces/task/ITaskInfo';
-import './task.css'
-import { TaskCard } from '../taskCard/taskCard';
-import { testFunct } from '../../Board';
+import './task.css';
 
 interface propFromDispatch {
   addParentCall: (task: ITaskInfo) => void;
 }
-// const mapStateToProps = () => ({
-//   initialTasks: initialTasks
-// });
 const mapStatusStateToProps = (status: Status) => ({
   status: status
 });
-// type Props = ReturnType<typeof mapStatusStateToProps> & ReturnType<typeof mapStateToProps> & propFromDispatch;
-type Props = ReturnType<typeof mapStatusStateToProps> & propFromDispatch;
-export const Addtask: React.FC<Props> = ({ status, addParentCall }) => {
+const mapDateToProps = (date: string) => ({
+  date: date
+});
+type Props = ReturnType<typeof mapDateToProps> & ReturnType<typeof mapStatusStateToProps> & propFromDispatch;
+export const Addtask: React.FC<Props> = ({ date, status, addParentCall }) => {
+
   const stackStyles: IStackStyles = {
     root: {
       height: 200,
@@ -48,8 +46,6 @@ export const Addtask: React.FC<Props> = ({ status, addParentCall }) => {
 
   const options: IDropdownOption[] = [
     { key: 'Shakthi', text: 'Shakthi Shythanya' }
-    // { key: 'Reshma', text: 'Reshma V' },
-    // { key: 'Braja', text: 'Braja' }
   ];
   const facepileProps: IFacepileProps = {
     personas: [
@@ -69,8 +65,9 @@ export const Addtask: React.FC<Props> = ({ status, addParentCall }) => {
     return newFacepileTotal;
   }
 
+  //let selectedDate :Date = new Date(Date.now());
   const calendarIcon: IIconProps = { iconName: 'Calendar', styles: iconStyles };
-  const [selectedDate, setSelectedDate] = React.useState<Date>(new Date(2000, 1, 1));
+  let [selectedDate, setSelectedDate] = React.useState<Date>(new Date(Date.now()));
   const [toggle, setToggle] = React.useState<Boolean>();
   const [isCalloutVisible, { toggle: toggleIsCalloutVisible, setFalse: hideCallout }] = useBoolean(false);
   const [selectedValue, setSelectedValue] = React.useState<string>();
@@ -81,7 +78,39 @@ export const Addtask: React.FC<Props> = ({ status, addParentCall }) => {
   const buttonContainerRef = React.useRef<HTMLDivElement>(null);
   const actionContainerRef = React.useRef<HTMLDivElement>(null);
   const [imagesFadeIn, { toggle: toggleImagesFadeIn }] = useBoolean(true);
+  const [calendarDateSelected, setcalendarDateSelected] = React.useState<Boolean>(false);
+  let calendarDate: Date = new Date();
+  let setCalendarDefaultDate = () => {
+    if (date === "today") {
+      calendarDate = new Date(Date.now());
+    }
+    else if (date === "progress") {
+      calendarDate = new Date(Date.now());
+    }
+    else if (date === "tomorrow") {
+      calendarDate = (new Date(new Date(Date.now()).setDate(new Date(Date.now()).getDate() + 1)));
+      console.log(calendarDate);
+    }
+    else if (date === "thisWeek") {
+      calendarDate = (new Date(new Date(Date.now()).next().sunday().setHours(0, 0, 0, 0) - 1));
+    }
+    else if (date === "nextWeek") {
+      calendarDate = (new Date(new Date(Date.now()).next().sunday().setHours(0, 0, 0, 0)).addDays(1));
+    }
+    else if (date === "future") {
+      calendarDate = (new Date(new Date(Date.now()).next().sunday().setHours(0, 0, 0, 0)).addDays(8));
+    }
+    else if (date === "noDate") {
+      calendarDate = (new Date(2000, 1, 1));
+    }
+    else if (date === "late") {
+      calendarDate = (new Date(new Date(Date.now()).setDate(new Date(Date.now()).getDate() - 1)));
+    }
+  }
 
+  if (date != '') {
+    setCalendarDefaultDate();
+  }
   const handleChange = (e: React.FormEvent<HTMLDivElement>, dOption: IDropdownOption) => {
     setisSelValue(true);
     setSelectedValue(options.find((s) => s.key == dOption.key)?.text.toString());
@@ -92,22 +121,36 @@ export const Addtask: React.FC<Props> = ({ status, addParentCall }) => {
   }
 
   const onSelectDate = React.useCallback(
-    (date: Date): Date => {
-      setSelectedDate(date);
+    (selDate: Date): Date => {
+      setcalendarDateSelected(true);
+
+      setSelectedDate(selDate);
+      console.log(selectedDate);
       hideCalendar();
-      return date;
+      return selDate;
     },
     [hideCalendar],
   );
   var task: ITaskInfo;
   const addTask = () => {
-    const taskToBeAdded = JSON.stringify({ taskName, end: selectedDate, status, assigned: selectedValue });
+    console.log(date);
+    if (date !== "progress" && date !== "noDate") {
+      setSelectedDate(calendarDate);
+      console.log(selectedDate);
+      console.log(calendarDate);
+    }
+    else if (date === "noDate") {
+      setSelectedDate(new Date(2000, 1, 1));
+    }
+
+    let dateToBeAdded: Date = (date !== "progress" && date !== "noDate" && !calendarDateSelected) ? calendarDate : date === "noDate" ? new Date(2000, 1, 1) : selectedDate;
+    console.log(date);
     task =
     {
       id: 5,
       taskName: taskName,
-      start: selectedDate,
-      end: selectedDate,
+      start: dateToBeAdded,
+      end: dateToBeAdded,
       status: status,
       assigned: "Shakthi"
     }
@@ -139,11 +182,12 @@ export const Addtask: React.FC<Props> = ({ status, addParentCall }) => {
         <div ref={buttonContainerRef}>
           <DefaultButton
             style={{ paddingLeft: '5px', paddingTop: '10px', borderStyle: 'none', textDecoration: 'right' }}
+            disabled={date === "noDate" ? true : false}
             iconProps={calendarIcon}
             onClick={toggleShowCalendar}
             name="dueDate"
             id="dueDate"
-            text={selectedDate.getFullYear() === 2000 ? 'Set due date' : selectedDate.toLocaleDateString()}>
+            text={date === "progress" && !calendarDateSelected ? 'Set due date' : date !== "progress" && date !== "noDate" && !calendarDateSelected ? calendarDate.toLocaleDateString() : date === "noDate" ? "No Date" : selectedDate.toLocaleDateString()}>
           </DefaultButton>
         </div>
         {showCalendar && (
@@ -161,7 +205,7 @@ export const Addtask: React.FC<Props> = ({ status, addParentCall }) => {
                 onSelectDate={onSelectDate}
                 onDismiss={hideCalendar}
                 isMonthPickerVisible
-                value={selectedDate}
+                value={calendarDate}
                 highlightCurrentMonth
                 isDayPickerVisible
                 showGoToToday

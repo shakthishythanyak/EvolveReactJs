@@ -2,13 +2,13 @@ import React, { useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 import { FontIcon, mergeStyles, IStyleSet, Text, Label, ILabelStyles, Pivot, PivotItem, initializeIcons, IPersonaSharedProps, Persona, PersonaSize, CommandButton, IContextualMenuProps, IIconProps, Callout, FocusTrapZone, TextField, Dropdown, IDropdownOption, DropdownMenuItemType, Stack, IStackTokens, Icon, IIconStyles, IStyle } from '@fluentui/react';
 import profile from "./react.png";
-import {Board,initialTasks} from "./Board";
+import { Board, initialTasks } from "./Board";
 import { ContextualMenuItemType, DirectionalHint, IContextualMenuItem } from '@fluentui/react/lib/ContextualMenu';
 import { CommandBarButton, DefaultButton } from '@fluentui/react/lib/Button';
 import { useBoolean, useConst } from '@fluentui/react-hooks';
 import './header.css';
 import { ITaskInfo, Status } from './Interfaces/task/ITaskInfo';
-import {DateLocalizer } from 'react-big-calendar'
+import { DateLocalizer } from 'react-big-calendar'
 import SelectableCalendar from './Calendar';
 
 const NavContainer = styled.div`
@@ -87,14 +87,12 @@ let dueDateArray: string[] = ["late", "noDate", "today", "tomorrow", "thisWeek",
 let progressArray: string[] = ["notStarted", "inProgress", "completed"];
 var selectedDueDateFilters: string[] = [];
 var selectedProgessFilters: string[] = [];
-export let TaskList:ITaskInfo[]=initialTasks;
+export let TaskList: ITaskInfo[] = initialTasks;
 export function Header() {
 
- const handleCallback = (tasks:ITaskInfo[]) =>{
-TaskList=tasks;
-//console.log("fromHeader");
-//console.log(JSON.stringify(TaskList));
-}
+  const handleCallback = (tasks: ITaskInfo[]) => {
+    TaskList = tasks;
+  }
   const stackTokens: IStackTokens = { childrenGap: 20 };
   const filterApplied = (ev?: React.MouseEvent<HTMLElement> | React.KeyboardEvent<HTMLElement>, item?: IContextualMenuItem) => {
     let selectedVal: string = item !== undefined ? item.key : "";
@@ -141,59 +139,18 @@ TaskList=tasks;
       previousLength = previousLength + 1;
     }
   }
-  const filterProps: IContextualMenuProps = {
-
-    items: [
-      {
-
-        key: 'filterDue',
-        text: 'Due',
-        subMenuProps: {
-          items: [
-            { key: 'late', text: 'Late', onClick: filterApplied },
-            { key: 'today', text: 'Today', onClick: filterApplied },
-            { key: 'tomorrow', text: 'Tomorrow', onClick: filterApplied },
-            { key: 'thisWeek', text: 'This week', onClick: filterApplied },
-            { key: 'nextWeek', text: 'Next Week', onClick: filterApplied },
-            { key: 'future', text: 'Future', onClick: filterApplied },
-            { key: 'noDate', text: 'No Date', onClick: filterApplied },
-          ],
-        }
-      },
-      {
-        key: 'filterProgress',
-        text: 'Progress',
-        subMenuProps: {
-          items: [
-            { key: 'notStarted', text: 'Not Started', onClick: filterApplied, iconProps: { iconName: 'StatusCircleRing' } },
-            { key: 'inProgress', text: 'In progress', onClick: filterApplied, iconProps: { iconName: 'CircleHalfFull' } },
-            { key: 'completed', text: 'Completed', onClick: filterApplied, iconProps: { iconName: 'CompletedSolid', style: { color: 'green' } } }
-          ],
-        },
-      },
-    ],
-    // By default, the menu will be focused when it opens. Uncomment the next line to prevent this.
-    // shouldFocusOnMount: false
-  };
-
-  //var Defaultview="DueDate";
   function handleGroupByDueDateClick() {
     view = "DueDate";
     textOfGroupBy = "Group By DueDate";
     console.log("DueDateclicked" + view);
     setCount(prevCount => prevCount + 1)
-    //useForceUpdate()
   }
   function handleGroupByProgressClick() {
     view = "Progress";
     textOfGroupBy = "Group By Progress";
     console.log("ProgressClicked" + view);
     setCount(prevCount => prevCount + 1)
-    //useForceUpdate();
   }
-  //const [, updateState] = React.useState();
-  //const forceUpdate = React.useCallback(() => updateState({}), []);
-
   const [count, setCount] = useState(0);
   const [filterCount, setFilterCount] = useState(0);
   const [showFilter, { toggle: toggleShowFilter, setFalse: hideFilter }] = useBoolean(false);
@@ -205,7 +162,7 @@ TaskList=tasks;
   const menuProps = useConst<IContextualMenuProps>(() => ({
     shouldFocusOnMount: false,
     items: [
-      { key: 'DueDate', text: 'Due Date', onClick: handleGroupByDueDateClick},
+      { key: 'DueDate', text: 'Due Date', onClick: handleGroupByDueDateClick },
       { key: 'Progress', text: 'Progress', onClick: handleGroupByProgressClick }
     ],
   }));
@@ -280,7 +237,7 @@ TaskList=tasks;
                     setInitialFocus
                   >
 
-                    <Stack tokens={stackTokens}>
+                    <Stack tokens={stackTokens} style={{ padding: '5px 5px 5px 5px' }}>
 
                       <div style={{ padding: '10px' }}>
                         <div className="listButtonText">
@@ -298,7 +255,7 @@ TaskList=tasks;
                       </div>
                       <CommandBarButton className="menuButton" onClick={toggleshowDueDateOptions}>
                         <div>
-                          <td style={{ width: '200px', paddingLeft: '15px', textAlign: 'left', fontSize: 'large' }}>{textOfDueDate}</td>
+                          <td style={{ width: '240px', paddingLeft: '15px', textAlign: 'left', fontSize: 'large' }}>{textOfDueDate}</td>
                           <td><Icon className="arrrow" iconName={showDueDateOptions ? "ChevronUp" : "ChevronDown"}></Icon></td>
                         </div>
                       </CommandBarButton>
@@ -350,7 +307,7 @@ TaskList=tasks;
                       }
 
                       <CommandBarButton className="menuButton" onClick={toggleshowProgressOptions}><div>
-                        <td style={{ width: '200px', paddingLeft: '15px', textAlign: 'left', fontSize: 'large' }}>{textOfProgress}</td>
+                        <td style={{ width: '240px', paddingLeft: '15px', textAlign: 'left', fontSize: 'large' }}>{textOfProgress}</td>
                         <td><Icon className="arrrow" iconName={showProgressOptions ? "ChevronUp" : "ChevronDown"}></Icon></td>
                       </div>
                       </CommandBarButton>

@@ -28,8 +28,8 @@ export let initialTasks: ITaskInfo[] = [
         id: 1,
         taskName: "Submit Mini Project",
         desc: "To do",
-        start:new Date(new Date(Date.now()).setDate(new Date(Date.now()).getDate() + 3)),
-        end:new Date(new Date(Date.now()).setDate(new Date(Date.now()).getDate() + 3)),
+        start: new Date(new Date(Date.now()).setDate(new Date(Date.now()).getDate() + 3)),
+        end: new Date(new Date(Date.now()).setDate(new Date(Date.now()).getDate() + 3)),
         status: Status.InProgress,
         assigned: "Shakthi"
     },
@@ -38,7 +38,7 @@ export let initialTasks: ITaskInfo[] = [
         taskName: "Test Mini Project Modules",
         desc: "To do",
         start: new Date(new Date(Date.now()).setDate(new Date(Date.now()).getDate() + 2)),
-        end:new Date(new Date(Date.now()).setDate(new Date(Date.now()).getDate() + 2)),
+        end: new Date(new Date(Date.now()).setDate(new Date(Date.now()).getDate() + 2)),
         status: Status.InProgress,
         assigned: "Shakthi"
     },
@@ -47,7 +47,7 @@ export let initialTasks: ITaskInfo[] = [
         taskName: "Review Mini Project Design",
         desc: "To do",
         start: new Date(new Date(Date.now()).setDate(new Date(Date.now()).getDate() + 1)),
-        end:new Date(new Date(Date.now()).setDate(new Date(Date.now()).getDate() + 1)),
+        end: new Date(new Date(Date.now()).setDate(new Date(Date.now()).getDate() + 1)),
         status: Status.Completed,
         assigned: "Shakthi"
     },
@@ -55,8 +55,8 @@ export let initialTasks: ITaskInfo[] = [
         id: 4,
         taskName: "Complete Mini Project Implementation",
         desc: "To do",
-        start: new Date(new Date(Date.now()).setDate(new Date(Date.now()).getDate() -1)),
-        end:new Date(new Date(Date.now()).setDate(new Date(Date.now()).getDate() -1)),
+        start: new Date(new Date(Date.now()).setDate(new Date(Date.now()).getDate() - 1)),
+        end: new Date(new Date(Date.now()).setDate(new Date(Date.now()).getDate() - 1)),
         status: Status.Completed,
         assigned: "Shakthi"
     },
@@ -65,7 +65,7 @@ export let initialTasks: ITaskInfo[] = [
         taskName: "Review Project implementation by Panels",
         desc: "To do",
         start: new Date(Date.now()),
-        end:new Date(Date.now()),
+        end: new Date(Date.now()),
         status: Status.Open,
         assigned: "Shakthi"
     },
@@ -88,7 +88,7 @@ interface IBoardProps {
     SelectedView: string;
     SelectedFilter: string[];
     AppliedFilter: string;
-    parentCallback: (tasks:ITaskInfo[]) => void;
+    parentCallback: (tasks: ITaskInfo[]) => void;
 }
 
 var viewdetails = "Progress";
@@ -171,6 +171,7 @@ export function Board(props: Props) {
                 initialCount = filteredTasks.length;
                 initialTasks.filter(x => x.end.setHours(0, 0, 0, 0) === new Date(2000, 1, 1).setHours(0, 0, 0, 0)).map(x => tempFilteredTasks.push(x));
             }
+
             if (selectedFilters.includes("notStarted")) {
                 initialCount = filteredTasks.length;
                 initialTasks.filter(x => x.status == Status.Open).map(x => tempFilteredTasks.push(x));
@@ -184,7 +185,6 @@ export function Board(props: Props) {
                 initialTasks.filter(x => x.status === Status.Completed).map(x => tempFilteredTasks.push(x));
             }
         }
-
         if (filteredDescription !== '' && filteredDescription !== undefined && tempFilteredTasks.length !== 0) {
             console.log(filteredDescription);
             setFilteredTasks(tempFilteredTasks.filter(x => x.taskName.toUpperCase().match(String(filteredDescription).toUpperCase())));
@@ -214,46 +214,59 @@ export function Board(props: Props) {
     var initialCount: Number = initialTasks.length;
 
     const openAddOpenTask = () => {
-        setAddOpenTaskClicked(true);
+        let temp = !addOpenTaskClicked;
+        setAddOpenTaskClicked(temp);
     }
 
     const openAddProgressTask = () => {
-        setAddProgressTaskClicked(true);
+        let temp = !addProgressTaskClicked;
+        setAddProgressTaskClicked(temp);
     }
 
     const openAddCompleteTask = () => {
-        setAddCompleteTaskClicked(true);
+        let temp = !addCompleteTaskClicked;
+        setAddCompleteTaskClicked(temp);
     }
 
     const openAddLateTask = () => {
-        setAddLateTaskClicked(true);
+        let temp = !addLateTaskClicked;
+        setAddLateTaskClicked(temp);
     }
 
     const openAddTodayTask = () => {
-        setAddTodayTaskClicked(true);
+        let temp = !addTodayTaskClicked;
+        setAddTodayTaskClicked(temp);
     }
 
     const openAddTomorrowTask = () => {
-        setAddTomorrowTaskClicked(true);
+        let temp = !addTomorrowTaskClicked;
+        setAddTomorrowTaskClicked(temp);
     }
 
     const openAddThisWeekTask = () => {
-        setAddThisWeekTaskClicked(true);
+        let temp = !addThisWeekTaskClicked;
+        setAddThisWeekTaskClicked(temp);
     }
     const openAddNextWeekTask = () => {
-        setAddNextWeekTaskClicked(true);
+        let temp = !addNextWeekTaskClicked;
+        setAddNextWeekTaskClicked(temp);
     }
 
     const openAddFutureTask = () => {
-        setAddFutureTaskClicked(true);
+        let temp = !addFutureTaskClicked;
+        setAddFutureTaskClicked(temp);
     }
 
     const openAddNoDateTask = () => {
-        setAddNoDateTaskClicked(true);
+        let temp = !addNoDateTaskClicked;
+        setAddNoDateTaskClicked(temp);
     }
     const addParentCall = (task: ITaskInfo) => {
         //setAddTaskFinal(true);
         initialCount = initialTasks.length;
+        task.id = initialTasks.length + 1;
+        console.log(initialTasks);
+        console.log(task);
         initialTasks.push(task);
         setInitialTasks(initialTasks);
         setAddOpenTaskClicked(false);
@@ -279,8 +292,10 @@ export function Board(props: Props) {
     }
     const updateParentCall = (task: ITaskInfo) => {
         initialTasks = initialTasks.filter(x => x.id !== task.id);
+
         initialTasks.push(task);
         setInitialTasks(initialTasks);
+        getFilteredTasks();
     }
     if (viewdetails == "DueDate") {
         console.log(viewdetails + "122")
@@ -293,7 +308,7 @@ export function Board(props: Props) {
                             <StudentCard>
                                 <ActionButton iconProps={addIcon} allowDisabledFocus style={{ color: 'green' }} onClick={() => openAddLateTask()}>Add Task</ActionButton>
                             </StudentCard>
-                            {addLateTaskClicked && <Addtask status={Status.Open} addParentCall={addParentCall} />
+                            {addLateTaskClicked && <Addtask date="late" status={Status.Open} addParentCall={addParentCall} />
                             }
                             <br />
                             {filteredTasks.filter(x => x.status === Status.Open && x.end.setHours(0, 0, 0, 0) < new Date(Date.now()).setHours(0, 0, 0, 0) && x.end.setHours(0, 0, 0, 0) != new Date(2000, 1, 1).setHours(0, 0, 0, 0)).map(x => { return <TaskCard taskInfo={x} updateParentCall={updateParentCall}></TaskCard> })}
@@ -303,7 +318,7 @@ export function Board(props: Props) {
                             <StudentCard>
                                 <ActionButton iconProps={addIcon} allowDisabledFocus style={{ color: 'green' }} onClick={() => openAddTodayTask()}>Add Task</ActionButton>
                             </StudentCard>
-                            {addTodayTaskClicked && <Addtask status={Status.Open} addParentCall={addParentCall} />
+                            {addTodayTaskClicked && <Addtask date="today" status={Status.Open} addParentCall={addParentCall} />
                             }
                             <br />
                             {filteredTasks.filter(x => x.status === Status.Open && x.end.setHours(0, 0, 0, 0) === new Date(Date.now()).setHours(0, 0, 0, 0)).map(x => { return <TaskCard taskInfo={x} updateParentCall={updateParentCall}></TaskCard> })}
@@ -313,7 +328,7 @@ export function Board(props: Props) {
                             <StudentCard>
                                 <ActionButton iconProps={addIcon} allowDisabledFocus style={{ color: 'green' }} onClick={() => openAddTomorrowTask()}>Add Task</ActionButton>
                             </StudentCard>
-                            {addTomorrowTaskClicked && <Addtask status={Status.Open} addParentCall={addParentCall} />
+                            {addTomorrowTaskClicked && <Addtask date="tomorrow" status={Status.Open} addParentCall={addParentCall} />
                             }
                             <br />
                             {filteredTasks && filteredTasks.filter(x => x.status === Status.Open && x.end.setHours(0, 0, 0, 0) === new Date(Date.now()).next().day().setHours(0, 0, 0, 0)).map(x => { return <TaskCard taskInfo={x} updateParentCall={updateParentCall}></TaskCard> })}
@@ -323,7 +338,7 @@ export function Board(props: Props) {
                             <StudentCard>
                                 <ActionButton iconProps={addIcon} allowDisabledFocus style={{ color: 'green' }} onClick={() => openAddThisWeekTask()}>Add Task</ActionButton>
                             </StudentCard>
-                            {addThisWeekTaskClicked && <Addtask status={Status.Open} addParentCall={addParentCall} />
+                            {addThisWeekTaskClicked && <Addtask date="thisWeek" status={Status.Open} addParentCall={addParentCall} />
                             }
                             <br />
                             {filteredTasks && filteredTasks.filter(x => x.status === Status.Open && x.end.setHours(0, 0, 0, 0) > new Date(Date.now()).next().day().setHours(0, 0, 0, 0) && (x.end.setHours(0, 0, 0, 0) < new Date(Date.now()).next().sunday().setHours(0, 0, 0, 0))).map(x => { return <TaskCard taskInfo={x} updateParentCall={updateParentCall}></TaskCard> })}
@@ -333,7 +348,7 @@ export function Board(props: Props) {
                             <StudentCard>
                                 <ActionButton iconProps={addIcon} allowDisabledFocus style={{ color: 'green' }} onClick={() => openAddNextWeekTask()}>Add Task</ActionButton>
                             </StudentCard>
-                            {addNextWeekTaskClicked && <Addtask status={Status.Open} addParentCall={addParentCall} />
+                            {addNextWeekTaskClicked && <Addtask date="nextWeek" status={Status.Open} addParentCall={addParentCall} />
                             }
                             <br />
                             {filteredTasks && filteredTasks.filter(x => x.status === Status.Open && x.end.setHours(0, 0, 0, 0) >= new Date(Date.now()).next().sunday().setHours(0, 0, 0, 0) && x.end.setHours(0, 0, 0, 0) < new Date(Date.now()).next().sunday().addDays(7).setHours(0, 0, 0, 0)).map(x => { return <TaskCard taskInfo={x} updateParentCall={updateParentCall}></TaskCard> })}
@@ -343,7 +358,7 @@ export function Board(props: Props) {
                             <StudentCard>
                                 <ActionButton iconProps={addIcon} allowDisabledFocus style={{ color: 'green' }} onClick={() => openAddFutureTask()}>Add Task</ActionButton>
                             </StudentCard>
-                            {addFutureTaskClicked && <Addtask status={Status.Open} addParentCall={addParentCall} />
+                            {addFutureTaskClicked && <Addtask date="future" status={Status.Open} addParentCall={addParentCall} />
                             }
                             <br />
                             {filteredTasks && filteredTasks.filter(x => x.status === Status.Open && x.end.setHours(0, 0, 0, 0) >= new Date(Date.now()).next().sunday().addDays(7).setHours(0, 0, 0, 0)).map(x => { return <TaskCard taskInfo={x} updateParentCall={updateParentCall}></TaskCard> })}
@@ -353,7 +368,7 @@ export function Board(props: Props) {
                             <StudentCard>
                                 <ActionButton iconProps={addIcon} allowDisabledFocus style={{ color: 'green' }} onClick={() => openAddNoDateTask()}>Add Task</ActionButton>
                             </StudentCard>
-                            {addNoDateTaskClicked && <Addtask status={Status.Open} addParentCall={addParentCall} />
+                            {addNoDateTaskClicked && <Addtask date="noDate" status={Status.Open} addParentCall={addParentCall} />
                             }
                             <br />
                             {filteredTasks && filteredTasks.filter(x => x.status === Status.Open && x.end.setHours(0, 0, 0, 0) === new Date(2000, 1, 1).setHours(0, 0, 0, 0)).map(x => { return <TaskCard taskInfo={x} updateParentCall={updateParentCall}></TaskCard> })}
@@ -374,7 +389,7 @@ export function Board(props: Props) {
                             <StudentCard>
                                 <ActionButton iconProps={addIcon} allowDisabledFocus style={{ color: 'green' }} onClick={() => openAddOpenTask()}>Add Task</ActionButton>
                             </StudentCard>
-                            {addOpenTaskClicked && <Addtask status={Status.Open} addParentCall={addParentCall} />
+                            {addOpenTaskClicked && <Addtask date="progress" status={Status.Open} addParentCall={addParentCall} />
                             }
                             <br />
                             {filteredTasks.filter(x => x.status === Status.Open).map(x => { console.log(filteredTasks); return <TaskCard taskInfo={x} updateParentCall={updateParentCall}></TaskCard> })}
@@ -384,7 +399,7 @@ export function Board(props: Props) {
                             <StudentCard>
                                 <ActionButton iconProps={addIcon} allowDisabledFocus style={{ color: 'green' }} onClick={() => openAddProgressTask()}>Add Task</ActionButton>
                             </StudentCard>
-                            {addProgressTaskClicked && <Addtask status={Status.InProgress} addParentCall={addParentCall} />
+                            {addProgressTaskClicked && <Addtask date="progress" status={Status.InProgress} addParentCall={addParentCall} />
                             }
                             <br />
                             {filteredTasks.filter(x => x.status === Status.InProgress).map(x => { return <TaskCard taskInfo={x} updateParentCall={updateParentCall}></TaskCard> })}
@@ -394,7 +409,7 @@ export function Board(props: Props) {
                             <StudentCard>
                                 <ActionButton iconProps={addIcon} allowDisabledFocus style={{ color: 'green' }} onClick={() => openAddCompleteTask()}>Add Task</ActionButton>
                             </StudentCard>
-                            {addCompleteTaskClicked && <Addtask status={Status.Completed} addParentCall={addParentCall} />
+                            {addCompleteTaskClicked && <Addtask date="progress" status={Status.Completed} addParentCall={addParentCall} />
                             }
                             <br />
                             {filteredTasks.filter(x => x.status === Status.Completed).map(x => { return <TaskCard taskInfo={x} updateParentCall={updateParentCall}></TaskCard> })}
