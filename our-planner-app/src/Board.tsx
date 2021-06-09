@@ -171,36 +171,36 @@ export function Board(props: Props) {
                 initialCount = filteredTasks.length;
                 initialTasks.filter(x => x.end.setHours(0, 0, 0, 0) === new Date(2000, 1, 1).setHours(0, 0, 0, 0)).map(x => tempFilteredTasks.push(x));
             }
-            if (tempFilteredTasks.length === 0) {
-                if (selectedFilters.includes("notStarted")) {
-                    initialCount = filteredTasks.length;
-                    initialTasks.filter(x => x.status == Status.Open).map(x => tempFilteredTasks.push(x));
-                }
-                if (selectedFilters.includes("inProgress")) {
-                    initialCount = filteredTasks.length;
-                    initialTasks.filter(x => x.status === Status.InProgress).map(x => tempFilteredTasks.push(x));
-                }
-                if (selectedFilters.includes("completed")) {
-                    initialCount = filteredTasks.length;
-                    initialTasks.filter(x => x.status === Status.Completed).map(x => tempFilteredTasks.push(x));
-                }
-            }
-            else {
+            if (selectedFilters.includes("notStarted") || selectedFilters.includes("inProgress") || selectedFilters.includes("completed")) {
                 let tempTasks: ITaskInfo[] = [];
-
+                if (tempFilteredTasks.length == 0) {
+                    if (selectedFilters.includes("notStarted")) {
+                        initialCount = filteredTasks.length;
+                        initialTasks.filter(x => x.status === Status.Open).map(x => tempTasks.push(x));
+                    }
+                    if (selectedFilters.includes("inProgress")) {
+                        initialCount = filteredTasks.length;
+                        initialTasks.filter(x => x.status === Status.InProgress).map(x => tempTasks.push(x));
+                    }
+                    if (selectedFilters.includes("completed")) {
+                        initialCount = filteredTasks.length;
+                        initialTasks.filter(x => x.status === Status.Completed).map(x => tempTasks.push(x));
+                    }
+                }
+                tempTasks.filter(x => !tempFilteredTasks.includes(x)).map(x => tempFilteredTasks.push(x));
+                let statusesSelected: Status[] = [];
                 if (selectedFilters.includes("notStarted")) {
-                    initialCount = filteredTasks.length;
-                    tempFilteredTasks.filter(x => x.status === Status.Open).map(x => tempTasks.push(x));
+                    statusesSelected.push(Status.Open);
                 }
                 if (selectedFilters.includes("inProgress")) {
-                    initialCount = filteredTasks.length;
-                    tempFilteredTasks.filter(x => x.status === Status.InProgress).map(x => tempTasks.push(x));
+                    statusesSelected.push(Status.InProgress);
                 }
                 if (selectedFilters.includes("completed")) {
-                    initialCount = filteredTasks.length;
-                    tempFilteredTasks.filter(x => x.status === Status.Completed).map(x => tempTasks.push(x));
+                    statusesSelected.push(Status.Completed);
                 }
-                tempFilteredTasks = tempTasks;
+                tempFilteredTasks = tempFilteredTasks.filter(x => statusesSelected.includes(x.status));
+                console.log(tempTasks.filter(x => !tempFilteredTasks.includes(x)));
+                console.log(tempTasks);
             }
         }
         if (filteredDescription !== '' && filteredDescription !== undefined && tempFilteredTasks.length !== 0) {
