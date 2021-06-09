@@ -79,7 +79,7 @@ export const Addtask: React.FC<Props> = ({ date, status, addParentCall }) => {
   const buttonContainerRef = React.useRef<HTMLDivElement>(null);
   const actionContainerRef = React.useRef<HTMLDivElement>(null);
   const [imagesFadeIn, { toggle: toggleImagesFadeIn }] = useBoolean(true);
-  const [calendarDateSelected, setcalendarDateSelected] = React.useState<Boolean>(false);
+  const [nonCalendarDateSelected, setnonCalendarDateSelected] = React.useState<Boolean>(false);
   let calendarDate: Date = new Date();
   let setCalendarDefaultDate = () => {
     if (date === "today") {
@@ -123,7 +123,7 @@ export const Addtask: React.FC<Props> = ({ date, status, addParentCall }) => {
 
   const onSelectDate = React.useCallback(
     (selDate: Date): Date => {
-      setcalendarDateSelected(true);
+      setnonCalendarDateSelected(true);
 
       setSelectedDate(selDate);
       console.log(selectedDate);
@@ -140,34 +140,33 @@ export const Addtask: React.FC<Props> = ({ date, status, addParentCall }) => {
   )
   const [showValidation, setshowValidation] = React.useState(false)
   const addTask = () => {
-    if(taskName.length == 0){
+    if (taskName.length == 0) {
       setshowValidation(true)
-    } 
-    else
-    {
-    console.log(date);
-    if (date !== "progress" && date !== "noDate") {
-      setSelectedDate(calendarDate);
-      console.log(selectedDate);
-      console.log(calendarDate);
     }
-    else if (date === "noDate") {
-      setSelectedDate(new Date(2000, 1, 1));
+    else {
+      console.log(date);
+      if (date !== "progress" && date !== "noDate") {
+        setSelectedDate(calendarDate);
+        console.log(selectedDate);
+        console.log(calendarDate);
+      }
+      else if (date === "noDate") {
+        setSelectedDate(new Date(2000, 1, 1));
+      }
+      let dateToBeAdded: Date = (date !== "progress" && date !== "noDate" && !nonCalendarDateSelected) ? calendarDate : date === "noDate" || (date === "progress" && !nonCalendarDateSelected) ? new Date(2000, 1, 1) : selectedDate;
+      console.log(date);
+      task =
+      {
+        id: 5,
+        taskName: taskName,
+        start: dateToBeAdded,
+        end: dateToBeAdded,
+        status: status,
+        assigned: "Shakthi",
+        desc: "To do"
+      }
+      addParentCall(task);
     }
-
-    let dateToBeAdded: Date = (date !== "progress" && date !== "noDate" && !calendarDateSelected) ? calendarDate : date === "noDate" ? new Date(2000, 1, 1) : selectedDate;
-    console.log(date);
-    task =
-    {
-      id: 5,
-      taskName: taskName,
-      start: dateToBeAdded,
-      end: dateToBeAdded,
-      status: status,
-      assigned: "Shakthi"
-    }
-    addParentCall(task);
-  }
   }
 
   return (<>
@@ -181,11 +180,11 @@ export const Addtask: React.FC<Props> = ({ date, status, addParentCall }) => {
             name="taskName"
             onChange={evt => setTaskNameValue(evt.currentTarget.value)}
             placeholder="Enter a task name"
-            onKeyDown = {(event) => {{setshowValidation(false)}}}
+            onKeyDown={(event) => { { setshowValidation(false) } }}
             borderless
             style={{ backgroundColor: '#EFEEEE', borderBottom: '2px solid', borderColor: 'green' }}
           />
-          { showValidation ? <Results /> : null }
+          {showValidation ? <Results /> : null}
         </span>
       </Stack>
       <Stack horizontal disableShrink tokens={horizontalGapStackTokens}>
@@ -203,7 +202,7 @@ export const Addtask: React.FC<Props> = ({ date, status, addParentCall }) => {
             onClick={toggleShowCalendar}
             name="dueDate"
             id="dueDate"
-            text={date === "progress" && !calendarDateSelected ? 'Set due date' : date !== "progress" && date !== "noDate" && !calendarDateSelected ? calendarDate.toLocaleDateString() : date === "noDate" ? "No Date" : selectedDate.toLocaleDateString()}>
+            text={date === "progress" && !nonCalendarDateSelected ? 'Set due date' : date !== "progress" && date !== "noDate" && !nonCalendarDateSelected ? calendarDate.toLocaleDateString() : date === "noDate" ? "No Date" : selectedDate.toLocaleDateString()}>
           </DefaultButton>
         </div>
         {showCalendar && (
