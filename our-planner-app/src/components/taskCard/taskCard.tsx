@@ -149,8 +149,8 @@ export const TaskCard: React.FC<Props> = ({ taskInfo, updateParentCall }) => {
 
       <Stack horizontal disableShrink tokens={horizontalGapStackTokens} >
         <div style={isOverDue ? { backgroundColor: 'red' } : {}}>
-          <Icon iconName="Calendar" className="iconOpen" />
-          <span className="tasktextDescription">&nbsp;{taskInfo.end.setHours(0, 0, 0, 0) === new Date(2000, 1, 1).setHours(0, 0, 0, 0) ? 'No Date' : taskInfo.end.toLocaleDateString()}</span>
+          <Icon iconName="Calendar" className="iconOpen" style={isOverDue ? { color: 'white' } : { height: '15px' }} />
+          <span className="tasktextDescription" style={isOverDue ? { color: 'white' } : {}}>&nbsp;{taskInfo.end.setHours(0, 0, 0, 0) === new Date(2000, 1, 1).setHours(0, 0, 0, 0) ? 'No Date' : taskInfo.end.toLocaleDateString()} &nbsp;</span>
         </div>
       </Stack>
       <hr style={{ width: '100%', color: 'gray' }}></hr>
