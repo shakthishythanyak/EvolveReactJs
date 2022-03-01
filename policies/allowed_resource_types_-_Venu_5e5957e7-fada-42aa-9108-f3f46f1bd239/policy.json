@@ -1,0 +1,48 @@
+{
+ "properties": {
+  "displayName": "allowed resource types - Venu",
+  "policyType": "Custom",
+  "mode": "All",
+  "metadata": {
+   "createdBy": "79baadf1-a135-4a4f-972e-ac8ec1e26015",
+   "createdOn": "2021-12-10T14:35:29.1445688Z",
+   "updatedBy": "79baadf1-a135-4a4f-972e-ac8ec1e26015",
+   "updatedOn": "2021-12-17T07:24:37.9872931Z"
+  },
+  "parameters": {
+   "listOfAllowedResourceTypes": {
+    "type": "Array",
+    "metadata": {
+     "displayName": "Allowed resource types",
+     "strongType": "resourceTypes"
+    }
+   },
+   "effect": {
+    "type": "String",
+    "metadata": {
+     "displayName": "Effect",
+     "description": "Effect if resource type is not allowed"
+    },
+    "allowedValues": [
+     "Deny",
+     "Audit"
+    ],
+    "defaultValue": "Deny"
+   }
+  },
+  "policyRule": {
+   "if": {
+    "not": {
+     "field": "type",
+     "in": "[parameters('listOfAllowedResourceTypes')]"
+    }
+   },
+   "then": {
+    "effect": "[parameters('effect')]"
+   }
+  }
+ },
+ "id": "/subscriptions/6968f87e-82e7-4cec-b1fb-55a561813af2/providers/Microsoft.Authorization/policyDefinitions/5e5957e7-fada-42aa-9108-f3f46f1bd239",
+ "type": "Microsoft.Authorization/policyDefinitions",
+ "name": "5e5957e7-fada-42aa-9108-f3f46f1bd239"
+}
